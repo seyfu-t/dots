@@ -1,0 +1,13 @@
+devel_packages:
+  - zed
+  - nushell
+  - cargo
+  - jdk-openjdk
+  - openjdk-doc
+  - openjdk-src
+  - sqlite
+
+devel_packages_aur:
+  - vscodium-bin
+  - vscodium-bin-marketplace
+  - bun-bin

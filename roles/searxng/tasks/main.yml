@@ -1,0 +1,37 @@
+- name: Install docker and compose
+  community.general.pacman:
+    update_cache: true
+    name:
+      - docker
+      - docker-compose
+
+- name: Enable docker daemon
+  ansible.builtin.systemd_service:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Create directory
+  ansible.builtin.file:
+    dest: "{{ item }}"
+    state: directory
+    mode: "755"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+  loop:
+    - /srv/searxng
+    - /srv/searxng/config
+
+- name: Copy compose file
+  ansible.builtin.copy:
+    src: compose.yml
+    dest: /srv/searxng/compose.yml
+    mode: "644"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+
+- name: Start docker-compose
+  community.docker.docker_compose_v2:
+    project_src: /srv/searxng
+    state: present
+    recreate: auto

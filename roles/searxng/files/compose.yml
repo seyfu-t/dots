@@ -1,0 +1,13 @@
+services:
+  searxng:
+    image: searxng/searxng:latest
+    container_name: searxng
+    environment:
+      - BASE_URL=http://localhost:8081
+      - INSTANCE_NAME=MySearxNG
+      - SEARXNG_SETTINGS_YAML=/etc/searxng/settings.yml
+    volumes:
+      - /srv/searxng/config:/etc/searxng
+    restart: always
+    ports:
+      - "8081:8080"

@@ -1,0 +1,35 @@
+- name: Ensure yay-bin build directory exists
+  become: false
+  ansible.builtin.file:
+    path: "{{ basics_yay_build_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Download yay-bin PKGBUILD
+  become: false
+  ansible.builtin.get_url:
+    url: "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay-bin"
+    dest: "{{ basics_yay_build_dir }}/PKGBUILD"
+    mode: "0644"
+    force: true
+
+- name: Build yay-bin with makepkg
+  tags: skip_ansible_lint
+  become: false
+  ansible.builtin.command:
+    chdir: "{{ basics_yay_build_dir }}"
+    cmd: "makepkg -sf --noconfirm"
+
+- name: Find built yay-bin package
+  ansible.builtin.find:
+    paths: "{{ basics_yay_build_dir }}"
+    patterns: "yay-bin-*.pkg.tar.zst"
+    recurse: false
+  register: basics_yay_bin_pkgs
+
+- name: Install yay-bin package with pacman
+  become: true
+  community.general.pacman:
+    name: "{{ item.path }}"
+    state: present
+  loop: "{{ basics_yay_bin_pkgs.files }}"

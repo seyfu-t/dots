@@ -1,0 +1,10 @@
+- name: Install basic dependencies
+  community.general.pacman:
+    state: present
+    update_cache: true
+    name:
+      - git
+      - base-devel
+
+- name: Install yay
+  ansible.builtin.include_tasks: yay.yml

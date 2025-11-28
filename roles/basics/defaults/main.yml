@@ -1,1 +1,5 @@
 basics_yay_build_dir: /tmp/yay
+
+basics_packages:
+  - git
+  - base-devel

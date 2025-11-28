@@ -1,0 +1,28 @@
+- name: Install fish and fisher
+  community.general.pacman:
+    state: present
+    update_cache: true
+    name:
+      - fish
+      - fisher
+
+- name: Install tide
+  tags: skip_ansible_lint
+  ansible.builtin.command:
+    cmd: fish -c "fisher install IlanCosman/tide@v6"
+
+- name: Configure tide
+  tags: skip_ansible_lint
+  ansible.builtin.command:
+    cmd: >
+      fish -c "tide configure
+      --auto
+      --style=Lean
+      --prompt_colors='True color'
+      --show_time='24-hour format'
+      --lean_prompt_height='Two lines'
+      --prompt_connection=Dotted
+      --prompt_connection_andor_frame_color=Dark
+      --prompt_spacing=Sparse
+      --icons='Many icons'
+      --transient=Yes"

@@ -1,0 +1,4 @@
+- name: grub_mkconfig
+  tags: skip_ansible_lint
+  ansible.builtin.command:
+    cmd: "grub-mkconfig -o /boot/grub/grub.cfg"

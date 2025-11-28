@@ -1,0 +1,12 @@
+- name: Install os-prober
+  community.general.pacman:
+    state: present
+    update_cache: true
+    name: os-prober
+
+- name: Enable os-prober in grub
+  ansible.builtin.lineinfile:
+    regexp: '^#?GRUB_DISABLE_OS_PROBER'
+    line: "GRUB_DISABLE_OS_PROBER=false"
+    path: /etc/default/grub
+  notify: grub_mkconfig

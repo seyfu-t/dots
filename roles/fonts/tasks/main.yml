@@ -1,0 +1,7 @@
+- name: Install fonts
+  community.general.pacman:
+    state: present
+    update_cache: true
+    name:
+      - fish
+      - fisher

@@ -1,0 +1,24 @@
+- name: Install hyprlock
+  community.general.pacman:
+    update_cache: true
+    name: hyprlock
+
+- name: Copy compose file
+  ansible.builtin.copy:
+    src: hyprlock.conf
+    dest: "{{ play_user_config_dir }}/hypr/hyprlock.conf"
+    mode: "644"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+
+- name: Copy assets
+  ansible.builtin.copy:
+    src: "assets/{{ item }}"
+    dest: "{{ play_user_config_dir }}/hypr/assets/{{ item }}"
+    mode: "644"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+  loop:
+    - background.png
+    - profile.png
+    - distro.png

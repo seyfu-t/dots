@@ -1,0 +1,15 @@
+- name: Install dependencies
+  community.general.pacman:
+    state: present
+    update_cache: true
+    name:
+      - hypridle
+      - brightnessctl
+
+- name: Copy over hypridle config
+  ansible.builtin.copy:
+    src: hypridle.conf
+    dest: "{{ play_user_config_dir }}/hypr/hypridle.conf"
+    mode: "644"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"

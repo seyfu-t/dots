@@ -4,5 +4,12 @@
     update_cache: true
     name: "{{ basics_packages }}"
 
+- name: Check if yay already
+  ansible.builtin.command: which yay
+  register: basics_yay_is_installed
+  changed_when: false
+  failed_when: false
+
 - name: Install yay
   ansible.builtin.include_tasks: yay.yml
+  when: basics_yay_is_installed.rc != 0

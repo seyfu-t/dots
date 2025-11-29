@@ -1,0 +1,17 @@
+- name: Gen locales
+  community.general.locale_gen:
+    name:
+      - de_DE.UTF-8
+      - en_GB.UTF-8
+
+- name: Configure LANG
+  ansible.builtin.lineinfile:
+    regexp: '^#?LANG'
+    line: "LANG=en_GB.UTF-8"
+    path: /etc/locale.conf
+
+- name: Configure LC_TIME
+  ansible.builtin.lineinfile:
+    regexp: '^#?LC_TIME'
+    line: "LC_TIME=de_DE.UTF-8"
+    path: /etc/locale.conf

@@ -1,0 +1,7 @@
+- name: Copy ozone flags to config
+  ansible.builtin.copy:
+    src: electron-flags.conf
+    dest: "{{ play_user_config_dir }}/electron-flags.conf"
+    mode: "644"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"

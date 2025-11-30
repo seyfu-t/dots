@@ -1,0 +1,21 @@
+- name: Make sure pacman hooks folder exists
+  ansible.builtin.file:
+    dest: /etc/pacman.d/hooks
+    owner: root
+    group: root
+    mode: "755"
+    state: directory
+
+- name: Install cache updater hook
+  ansible.builtin.copy:
+    src: updateKDEcache.hook
+    dest: /etc/pacman.d/hooks/updateKDEcache.hook
+    owner: root
+    group: root
+    mode: "755"
+
+- name: Install dolphin file manager & optional dependencies
+  community.general.pacman:
+    state: present
+    update_cache: true
+    name: "{{ dolphin_packages }}"

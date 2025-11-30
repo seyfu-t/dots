@@ -1,0 +1,12 @@
+dolphin_packages:
+  - dolphin
+  - ark
+  - kio-admin
+  - ffmpegthumbs
+  - icoutils
+  - kdegraphics-thumbnailers
+  - kimageformats
+  - libheif
+  - libappimage
+  - qt6-imageformats
+  - resvg

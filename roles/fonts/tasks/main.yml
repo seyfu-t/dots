@@ -1,3 +1,24 @@
+- name: Ensure user font directory exists
+  ansible.builtin.file:
+    path: "{{ play_user_data_dir }}/fonts"
+    state: directory
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "0755"
+
+- name: Install TTF fonts
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ play_user_data_dir }}/fonts/{{ item }}"
+    mode: "0644"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+  loop:
+    - GrapeNuts-Regular.ttf
+    - Icomoon-Feather.ttf
+    - Iosevka-Nerd-Font-Complete.ttf
+  notify: Refresh font cache
+
 - name: Install fonts
   community.general.pacman:
     state: present

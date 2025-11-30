@@ -1,0 +1,33 @@
+- name: Install rofi
+  community.general.pacman:
+    name: rofi
+
+- name: Create config folder
+  ansible.builtin.file:
+    dest: "{{ play_user_config_dir }}/rofi"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "755"
+    state: directory
+
+- name: Copy config
+  ansible.builtin.copy:
+    src: rofi/
+    dest: "{{ play_user_config_dir }}/rofi"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "644"
+
+- name: Find all rofi .sh scripts
+  ansible.builtin.find:
+    paths: "{{ play_user_config_dir }}/rofi"
+    patterns: "*.sh"
+    file_type: file
+    recurse: true
+  register: rofi_scripts
+
+- name: Set execute bit on rofi .sh scripts
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "0755"
+  loop: "{{ rofi_scripts.files }}"

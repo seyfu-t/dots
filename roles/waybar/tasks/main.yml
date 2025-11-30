@@ -1,0 +1,24 @@
+- name: Install waybar
+  community.general.pacman:
+    name:
+      - python-requests
+      - waybar
+
+- name: Create config folder
+  ansible.builtin.file:
+    dest: "{{ play_user_config_dir }}/waybar"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "755"
+    state: directory
+
+- name: Copy config
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ play_user_config_dir }}/waybar/{{ item }}"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "644"
+  loop:
+    - config.jsonc
+    - style.css

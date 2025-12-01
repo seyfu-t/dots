@@ -1,0 +1,9 @@
+- name: Install nvidia drivers and tools
+  community.general.pacman:
+    state: present
+    name:
+      - nvidia
+      - nvidia-utils
+      - nvidia-settings
+      - nvtop
+      - libva-nvidia-driver

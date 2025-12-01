@@ -1,0 +1,19 @@
+- name: Install flatpak itself
+  community.general.pacman:
+    state: present
+    name: flatpak
+
+- name: Remove all remotes
+  community.general.flatpak_remote:
+    name: flathub
+    state: absent
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    method: system
+
+- name: Remove all remotes
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    method: user
+    enabled: true

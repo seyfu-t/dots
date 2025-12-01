@@ -17,5 +17,4 @@
 - name: Install dolphin file manager & optional dependencies
   community.general.pacman:
     state: present
-    update_cache: true
     name: "{{ dolphin_packages }}"

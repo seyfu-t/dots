@@ -1,6 +1,5 @@
 - name: Install docker and compose
   community.general.pacman:
-    update_cache: true
     name:
       - docker
       - docker-compose

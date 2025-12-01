@@ -1,7 +1,6 @@
 - name: Install os-prober
   community.general.pacman:
     state: present
-    update_cache: true
     name: os-prober
 
 - name: Enable os-prober in grub

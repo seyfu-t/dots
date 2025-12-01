@@ -1,5 +1,6 @@
 - name: Install rofi
   community.general.pacman:
+    state: present
     name: rofi
 
 - name: Create config folder

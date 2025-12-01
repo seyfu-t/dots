@@ -1,6 +1,5 @@
 - name: Install hyprlock
   community.general.pacman:
-    update_cache: true
     name: hyprlock
 
 - name: Copy compose file

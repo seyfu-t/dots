@@ -1,7 +1,6 @@
 - name: Install fish and fisher
   community.general.pacman:
     state: present
-    update_cache: true
     name:
       - fish
       - fisher

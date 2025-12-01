@@ -16,6 +16,7 @@
     "modules-right": [
         "network",
         "bluetooth",
+        "tray",
         "battery",
         "backlight",
         "pulseaudio",

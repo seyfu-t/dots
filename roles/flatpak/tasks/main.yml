@@ -3,14 +3,14 @@
     state: present
     name: flatpak
 
-- name: Remove all remotes
+- name: Remove system-wide remote (flathub)
   community.general.flatpak_remote:
     name: flathub
     state: absent
     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
     method: system
 
-- name: Remove all remotes
+- name: Enable user-wide remote (flathub)
   community.general.flatpak_remote:
     name: flathub
     state: present

@@ -1,0 +1,31 @@
+- name: Create gtk3 settings folder
+  ansible.builtin.file:
+    state: directory
+    dest: "{{ play_user_config_dir }}/gtk-3.0"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "755"
+
+- name: Copy gtk3 config
+  ansible.builtin.copy:
+    src: settings_gtk3.ini
+    dest: "{{ play_user_config_dir }}/gtk-3.0/settings.ini"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "644"
+
+- name: Create gtk4 settings folder
+  ansible.builtin.file:
+    state: directory
+    dest: "{{ play_user_config_dir }}/gtk-4.0"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "755"
+
+- name: Copy gtk4 config
+  ansible.builtin.copy:
+    src: settings_gtk4.ini
+    dest: "{{ play_user_config_dir }}/gtk-4.0/settings.ini"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "644"

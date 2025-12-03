@@ -1,0 +1,16 @@
+- name: Install Breeze for flatpak
+  community.general.flatpak:
+    state: present
+    name: org.gtk.Gtk3theme.Breeze
+    method: user
+
+- name: Add global read only paths for theming
+  ansible.builtin.command:
+    cmd: |
+      flatpak override --user
+      --filesystem=~/.themes:ro
+      --filesystem=~/.icons:ro
+      --filesystem=~/.local/share/themes:ro
+      --env=GTK_THEME=Breeze-Dark
+      --env=ICON_THEME=Breeze-Dark
+  changed_when: true

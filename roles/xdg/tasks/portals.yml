@@ -1,0 +1,15 @@
+- name: Create xdg desktop portal config folder
+  ansible.builtin.file:
+    state: directory
+    dest: "{{ play_user_config_dir }}/xdg-desktop-portal"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "755"
+
+- name: Copy xdg desktop portal config file
+  ansible.builtin.copy:
+    src: portals.conf
+    dest: "{{ play_user_config_dir }}/xdg-desktop-portal/portals.conf"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "644"

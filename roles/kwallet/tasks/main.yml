@@ -1,0 +1,8 @@
+- name: Install KWallet and dependencies
+  community.general.pacman:
+    state: present
+    name:
+      - kwallet
+      - kwalletmanager
+      - kwallet-pam
+      - ksshaskpass

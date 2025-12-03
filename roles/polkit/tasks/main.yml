@@ -1,0 +1,4 @@
+- name: Install hyprland-polkit
+  community.general.pacman:
+    state: present
+    name: hyprpolkitagent

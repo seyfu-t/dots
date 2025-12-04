@@ -18,3 +18,25 @@
   community.general.pacman:
     state: present
     name: "{{ dolphin_packages }}"
+
+- name: Create KNotifications directory
+  ansible.builtin.file:
+    path: "{{ play_user_data_dir }}/knotifications6"
+    state: directory
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "755"
+
+- name: Copy global KNotifications config to local folder
+  ansible.builtin.copy:
+    src: /usr/share/knotifications6/plasma_workspace.notifyrc
+    dest: "{{ play_user_data_dir }}/knotifications6/plasma_workspace.notifyrc"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "755"
+
+- name: Remove dialog-question sound
+  ansible.builtin.replace:
+    path: "{{ play_user_data_dir }}/knotifications6/plasma_workspace.notifyrc"
+    regexp: "^Sound=.*?dialog-question.*?$"
+    replace: "Sound="

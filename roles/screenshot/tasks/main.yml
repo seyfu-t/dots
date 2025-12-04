@@ -1,0 +1,5 @@
+- name: Install grimblat
+  kewlfft.aur.aur:
+    state: present
+    name: grimblast
+    use: yay

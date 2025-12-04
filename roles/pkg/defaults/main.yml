@@ -1,0 +1,42 @@
+pkg_pacman:
+  - nano
+  - helix
+  - eza
+  - dust
+  - imagemagick
+  - man-db
+  - 7zip
+  - unzip
+  - bind
+  - jq
+  - fastfetch
+  - kitty
+  - rsync
+  - yt-dlp
+  - pavucontrol
+  - pamixer
+  - networkmanager
+  - network-manager-applet
+  - nextcloud-client
+  - gst-plugin-pipewire
+  - wireplumber
+  - parallel
+  - brightnessctl
+  - udiskie
+  - archlinux-xdg-menu
+  - cliphist
+  - wl-clipboard
+  - inetutils
+  - ffmpeg
+  - qt5-wayland
+  - qt6-wayland
+
+pkg_aur:
+  - etcher-bin
+
+pkg_flatpak:
+  - app.zen_browser.zen
+  - com.github.tchx84.Flatseal
+  - eu.betterbird.Betterbird
+  - com.discordapp.Discord
+  - com.usebruno.Bruno

@@ -1,0 +1,19 @@
+- name: Install packages
+  community.general.pacman:
+    state: present
+    name: "{{ pkg_pacman }}"
+
+- name: Install aur packages
+  become: true
+  become_user: aur_builder
+  kewlfft.aur.aur:
+    state: present
+    name: "{{ pkg_aur }}"
+    use: yay
+    aur_only: true
+
+- name: Install flatpaks
+  community.general.flatpak:
+    state: present
+    method: user
+    name: "{{ pkg_flatpak }}"

@@ -10,3 +10,28 @@
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
     mode: "644"
+
+- name: Read configured XDG user dirs
+  ansible.builtin.command: "xdg-user-dir {{ item }}"
+  changed_when: false
+  register: xdg_dirs
+  become_user: "{{ play_user }}"
+  become: true
+  loop:
+    - DESKTOP
+    - DOCUMENTS
+    - DOWNLOAD
+    - PICTURES
+    - VIDEOS
+    - MUSIC
+    - PUBLICSHARE
+    - TEMPLATES
+
+- name: Ensure XDG folders actually exist to prevent being overwritten by xdg-user-dirs-update
+  ansible.builtin.file:
+    state: directory
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "755"
+    path: "{{ item.stdout }}"
+  loop: "{{ xdg_dirs.results }}"

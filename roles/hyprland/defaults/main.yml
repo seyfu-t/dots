@@ -1,0 +1,7 @@
+_hyprland_config_files:
+  - env.conf
+  - exec.conf
+  - visuals.conf
+  - keybindings.conf
+  - monitors.conf
+  - userprefs.conf

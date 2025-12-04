@@ -1,0 +1,4 @@
+{% for file in _hyprland_config_files %}
+source = {{ play_user_config_dir }}/hypr/{{ file }}
+{% endfor %}
+source = {{ play_user_config_dir }}/hypr/overrides.conf

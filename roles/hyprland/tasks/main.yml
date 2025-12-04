@@ -1,0 +1,55 @@
+- name: Install hyprland & dependencies
+  community.general.pacman:
+    state: present
+    name:
+      - hyprland
+      - hyprpicker
+
+- name: Create hypr config folder
+  ansible.builtin.file:
+    path: "{{ play_user_config_dir }}/hypr"
+    mode: "755"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    state: directory
+
+- name: Copy config files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ play_user_config_dir }}/hypr/{{ item }}"
+    mode: "0644"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+  loop: "{{ _hyprland_config_files }}"
+
+- name: Copy xdph.conf
+  ansible.builtin.copy:
+    src: xdph.conf
+    dest: "{{ play_user_config_dir }}/hypr/xdph.conf"
+    mode: "0644"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+
+- name: Import config files in order
+  ansible.builtin.template:
+    src: hyprland.conf.j2
+    dest: "{{ play_user_config_dir }}/hypr/hyprland.conf"
+    mode: "0644"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+
+- name: Create override file
+  ansible.builtin.file:
+    path: "{{ play_user_config_dir }}/hypr/overrides.conf"
+    mode: "644"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    state: touch
+
+- name: Copy scripts folder
+  ansible.builtin.copy:
+    src: scripts
+    dest: "{{ play_user_config_dir }}/hypr/scripts"
+    mode: "755"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"

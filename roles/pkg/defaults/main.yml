@@ -30,9 +30,15 @@ pkg_pacman:
   - ffmpeg
   - qt5-wayland
   - qt6-wayland
+  - zed
+  - ansible
+  - ansible-lint
 
 pkg_aur:
   - etcher-bin
+  - vscodium-bin
+  - vscodium-bin-marketplace
+  - vscodium-xdg-dir-patch
 
 pkg_flatpak:
   - app.zen_browser.zen

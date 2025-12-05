@@ -1,0 +1,20 @@
+- name: Install breeze and theme managers
+  community.general.pacman:
+    state: present
+    name:
+      - qt6ct
+      - qt5ct
+      - breeze
+      - breeze-icons
+      - breeze-gtk
+      - breeze5
+      - nwg-look
+
+- name: Configure GTK theming
+  ansible.builtin.include_tasks: gtk.yml
+
+- name: Configure QT theming
+  ansible.builtin.include_tasks: qt.yml
+
+- name: Configure flatpak theming
+  ansible.builtin.include_tasks: flatpak.yml

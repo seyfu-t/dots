@@ -5,25 +5,10 @@
       - xdg-desktop-portal
       - xdg-desktop-portal-gtk
       - xdg-desktop-portal-hyprland
-      - qt6ct
-      - qt5ct
-      - breeze
-      - breeze-icons
-      - breeze-gtk
-      - breeze5
-      - nwg-look
+      - xdg-user-dirs
 
 - name: Configure XDG user directories
   ansible.builtin.include_tasks: user-dirs.yml
 
 - name: Configure XDG desktop portal preferences
   ansible.builtin.include_tasks: portals.yml
-
-- name: Configure GTK theming
-  ansible.builtin.include_tasks: gtk.yml
-
-- name: Configure QT theming
-  ansible.builtin.include_tasks: qt.yml
-
-- name: Configure flatpak theming
-  ansible.builtin.include_tasks: flatpak.yml

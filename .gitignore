@@ -1,3 +1,4 @@
 .ansible
 .vscode
 .credentials
+playbooks/test.yml

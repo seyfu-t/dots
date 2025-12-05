@@ -1,10 +1,9 @@
 - name: Install all dotfiles
   become: true
   hosts: all
-  vars:
-    play_user: "{{ lookup('env', 'SUDO_USER') | default(lookup('env', 'USER'), true) }}"
-    play_user_config_dir: "{{ lookup('env', 'XDG_CONFIG_HOME') | default('/home/' ~ play_user ~ '/.config', true) }}"
-    play_user_data_dir: "{{ lookup('env', 'XDG_DATA_HOME') | default('/home/' ~ play_user ~ '/.local/share', true) }}"
+  vars_files:
+    - ../vars/env.yml
+    - ../vars/theme.yml
   roles:
     - basics
     - devel

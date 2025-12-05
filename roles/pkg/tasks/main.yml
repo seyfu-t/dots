@@ -13,6 +13,8 @@
     aur_only: true
 
 - name: Install flatpaks
+  become: true
+  become_user: "{{ play_user }}"
   community.general.flatpak:
     state: present
     method: user

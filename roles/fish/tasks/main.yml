@@ -6,12 +6,15 @@
       - fisher
 
 - name: Install tide
-  tags: skip_ansible_lint
+  become: true
+  become_user: "{{ play_user }}"
   ansible.builtin.command:
     cmd: fish -c "fisher install IlanCosman/tide@v6"
+  changed_when: true
 
 - name: Configure tide
-  tags: skip_ansible_lint
+  become: true
+  become_user: "{{ play_user }}"
   ansible.builtin.command:
     cmd: >
       fish -c "tide configure
@@ -25,3 +28,4 @@
       --prompt_spacing=Sparse
       --icons='Many icons'
       --transient=Yes"
+  changed_when: true

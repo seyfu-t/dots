@@ -1,10 +1,14 @@
 - name: Install Breeze for flatpak
+  become: true
+  become_user: "{{ play_user }}"
   community.general.flatpak:
     state: present
     name: org.gtk.Gtk3theme.Breeze
     method: user
 
 - name: Add global read only paths for theming
+  become: true
+  become_user: "{{ play_user }}"
   ansible.builtin.command:
     cmd: |
       flatpak override --user

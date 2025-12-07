@@ -1,7 +1,8 @@
 devel_packages:
   - zed
   - nushell
-  - cargo
+  - rust
+  - rust-src
   - jdk-openjdk
   - openjdk-doc
   - openjdk-src

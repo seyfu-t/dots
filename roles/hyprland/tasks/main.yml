@@ -48,7 +48,7 @@
 
 - name: Copy scripts folder
   ansible.builtin.copy:
-    src: scripts
+    src: scripts/
     dest: "{{ play_user_config_dir }}/hypr/scripts"
     mode: "755"
     owner: "{{ play_user }}"

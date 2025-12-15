@@ -23,6 +23,7 @@
     - polkit
     - rofi
     - screenshot
+    - scripts
     - searxng
     - waybar
     - wayland

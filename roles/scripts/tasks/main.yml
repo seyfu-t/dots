@@ -1,0 +1,18 @@
+- name: Install ddc
+  community.general.pacman:
+    state: present
+    name: ddcutil
+
+- name: Activate i2c-dev module
+  community.general.modprobe:
+    state: present
+    name: i2c-dev
+    persistent: present
+
+- name: Copy ddc script to local bin
+  ansible.builtin.copy:
+    src: ddc.nu
+    dest: /usr/local/bin/ddc.nu
+    mode: "0755"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"

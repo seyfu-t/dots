@@ -5,3 +5,4 @@ _hyprland_config_files:
   - keybindings.conf
   - monitors.conf
   - userprefs.conf
+  - popups.conf

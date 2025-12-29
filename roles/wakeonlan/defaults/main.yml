@@ -1,0 +1,2 @@
+wakeonlan_nic: "{{ ansible_facts.default_ipv4.interface }}"
+wakeonlan_mac: "{{ ansible_facts[wakeonlan_nic].macaddress }}"

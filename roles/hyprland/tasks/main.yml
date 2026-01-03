@@ -38,13 +38,14 @@
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
 
-- name: Create override file
-  ansible.builtin.file:
-    path: "{{ play_user_config_dir }}/hypr/overrides.conf"
+- name: Ensure override file exists
+  ansible.builtin.copy:
+    src: overrides.conf
+    dest: "{{ play_user_config_dir }}/hypr/overrides.conf"
     mode: "644"
+    force: false
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
-    state: touch
 
 - name: Copy scripts folder
   ansible.builtin.copy:

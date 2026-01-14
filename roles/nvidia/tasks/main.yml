@@ -2,7 +2,7 @@
   community.general.pacman:
     state: present
     name:
-      - nvidia
+      - nvidia-open
       - nvidia-utils
       - nvidia-settings
       - nvtop

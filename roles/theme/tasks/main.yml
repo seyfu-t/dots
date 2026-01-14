@@ -1,14 +1,23 @@
-- name: Install breeze and theme managers
+- name: Install breeze and gtk theme manager
   community.general.pacman:
     state: present
     name:
-      - qt6ct
-      - qt5ct
       - breeze
       - breeze-icons
       - breeze-gtk
       - breeze5
       - nwg-look
+
+- name: Install patched qt to play nicely with plasma apps
+  become: true
+  become_user: aur_builder
+  kewlfft.aur.aur:
+    state: present
+    use: yay
+    aur_only: true
+    name:
+      - qt6ct-kde
+      - qt5ct-kde
 
 - name: Configure GTK theming
   ansible.builtin.include_tasks: gtk.yml

@@ -8,7 +8,7 @@
     dest: "{{ play_user_config_dir }}/rofi"
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
-    mode: "755"
+    mode: "{{ perm_folders }}"
     state: directory
 
 - name: Copy config
@@ -17,7 +17,7 @@
     dest: "{{ play_user_config_dir }}/rofi"
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
-    mode: "644"
+    mode: "{{ perm_files }}"
 
 - name: Find all rofi .sh scripts
   ansible.builtin.find:

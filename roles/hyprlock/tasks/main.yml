@@ -6,7 +6,7 @@
   ansible.builtin.copy:
     src: hyprlock.conf
     dest: "{{ play_user_config_dir }}/hypr/hyprlock.conf"
-    mode: "644"
+    mode: "{{ perm_files }}"
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
 
@@ -14,7 +14,7 @@
   ansible.builtin.file:
     path: "{{ play_user_config_dir }}/hypr/assets"
     state: directory
-    mode: "751"
+    mode: "{{ perm_folders }}"
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
 
@@ -22,7 +22,7 @@
   ansible.builtin.copy:
     src: "assets/{{ item }}"
     dest: "{{ play_user_config_dir }}/hypr/assets/{{ item }}"
-    mode: "644"
+    mode: "{{ perm_files }}"
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
   loop:

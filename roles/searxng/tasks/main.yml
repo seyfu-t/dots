@@ -14,7 +14,7 @@
   ansible.builtin.file:
     dest: "{{ item }}"
     state: directory
-    mode: "755"
+    mode: "{{ perm_folders }}"
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
   loop:
@@ -25,7 +25,7 @@
   ansible.builtin.copy:
     src: compose.yml
     dest: /srv/searxng/compose.yml
-    mode: "644"
+    mode: "{{ perm_files }}"
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
 

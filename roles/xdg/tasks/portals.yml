@@ -4,7 +4,7 @@
     dest: "{{ play_user_config_dir }}/xdg-desktop-portal"
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
-    mode: "755"
+    mode: "{{ perm_folders }}"
 
 - name: Copy xdg desktop portal config file
   ansible.builtin.copy:
@@ -12,4 +12,4 @@
     dest: "{{ play_user_config_dir }}/xdg-desktop-portal/portals.conf"
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
-    mode: "644"
+    mode: "{{ perm_files }}"

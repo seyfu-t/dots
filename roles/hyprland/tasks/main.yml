@@ -8,7 +8,7 @@
 - name: Create hypr config folder
   ansible.builtin.file:
     path: "{{ play_user_config_dir }}/hypr"
-    mode: "755"
+    mode: "{{ perm_folders }}"
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
     state: directory
@@ -42,7 +42,7 @@
   ansible.builtin.copy:
     src: overrides.conf
     dest: "{{ play_user_config_dir }}/hypr/overrides.conf"
-    mode: "644"
+    mode: "{{ perm_files }}"
     force: false
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
@@ -51,6 +51,6 @@
   ansible.builtin.copy:
     src: scripts/
     dest: "{{ play_user_config_dir }}/hypr/scripts"
-    mode: "755"
+    mode: "{{ perm_folders }}"
     owner: "{{ play_user }}"
     group: "{{ play_user }}"

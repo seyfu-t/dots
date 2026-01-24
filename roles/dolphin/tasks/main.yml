@@ -3,7 +3,7 @@
     dest: /etc/pacman.d/hooks
     owner: root
     group: root
-    mode: "755"
+    mode: "{{ perm_folders }}"
     state: directory
 
 - name: Install cache updater hook
@@ -12,7 +12,7 @@
     dest: /etc/pacman.d/hooks/updateKDEcache.hook
     owner: root
     group: root
-    mode: "755"
+    mode: "{{ perm_folders }}"
 
 - name: Install dolphin file manager & optional dependencies
   community.general.pacman:
@@ -25,7 +25,7 @@
     state: directory
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
-    mode: "751"
+    mode: "{{ perm_folders }}"
 
 - name: Copy KNotifications override to local folder
   ansible.builtin.copy:
@@ -33,4 +33,4 @@
     dest: "{{ play_user_data_dir }}/knotifications6/plasma_workspace.notifyrc"
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
-    mode: "644"
+    mode: "{{ perm_files }}"

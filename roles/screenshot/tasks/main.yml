@@ -1,4 +1,6 @@
 - name: Install grimblat
+  become: true
+  become_user: aur_builder
   kewlfft.aur.aur:
     state: present
     name: grimblast

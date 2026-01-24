@@ -7,6 +7,19 @@
       - xdg-desktop-portal-hyprland
       - xdg-user-dirs
 
+- name: Create xdg folders
+  ansible.builtin.file:
+    dest: "{{ item }}"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "751"
+    state: directory
+  loop:
+    - "{{ play_user_config_dir }}"
+    - "{{ play_user_data_dir }}"
+    - "{{ play_user_cache_dir }}"
+    - "{{ play_user_state_dir }}"
+
 - name: Configure XDG user directories
   ansible.builtin.include_tasks: user-dirs.yml
 

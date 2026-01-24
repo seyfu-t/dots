@@ -1,3 +1,8 @@
+- name: Detect NVIDIA GPU
+  ansible.builtin.command: lspci -nn
+  register: nvidia_lspci_out
+  changed_when: false
+
 - name: Install nvidia drivers and tools
   community.general.pacman:
     state: present
@@ -7,3 +12,4 @@
       - nvidia-settings
       - nvtop
       - libva-nvidia-driver
+  when: nvidia_lspci_out.stdout is search('10de:')

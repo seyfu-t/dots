@@ -11,6 +11,8 @@
     method: system
 
 - name: Enable user-wide remote (flathub)
+  become: true
+  become_user: "{{ play_user }}"
   community.general.flatpak_remote:
     name: flathub
     state: present

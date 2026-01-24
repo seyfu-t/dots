@@ -10,6 +10,14 @@
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
 
+- name: Create assets folder
+  ansible.builtin.file:
+    path: "{{ play_user_config_dir }}/hypr/assets"
+    state: directory
+    mode: "751"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+
 - name: Copy assets
   ansible.builtin.copy:
     src: "assets/{{ item }}"

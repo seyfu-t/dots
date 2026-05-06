@@ -39,6 +39,7 @@ pkg_aur:
   - vscodium-bin
   - vscodium-bin-marketplace
   - vscodium-xdg-dir-patch
+  - swappy
 
 pkg_flatpak:
   - app.zen_browser.zen

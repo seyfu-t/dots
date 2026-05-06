@@ -7,8 +7,8 @@ devel_packages:
   - openjdk-doc
   - openjdk-src
   - sqlite
+  - bun
 
 devel_packages_aur:
   - vscodium-bin
   - vscodium-bin-marketplace
-  - bun-bin

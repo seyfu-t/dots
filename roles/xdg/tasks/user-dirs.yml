@@ -21,6 +21,7 @@
     - MUSIC
     - PUBLICSHARE
     - TEMPLATES
+    - PROJECTS
 
 - name: Ensure XDG folders actually exist to prevent being overwritten by xdg-user-dirs-update
   ansible.builtin.file:

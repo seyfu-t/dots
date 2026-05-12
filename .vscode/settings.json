@@ -1,4 +1,5 @@
 {
+    "ansible.python.interpreterPath": "/usr/bin/python",
     "Lua.workspace.library": [
         ".luarc.json"
     ]

@@ -61,6 +61,19 @@ local profiles = {
                 vrr = 2,
             },
         },
+
+        workspaces = {
+            { id = 1,  monitor = "DP-2" },
+            { id = 2,  monitor = "DP-2" },
+            { id = 3,  monitor = "DP-2" },
+            { id = 4,  monitor = "DP-2" },
+            { id = 5,  monitor = "DP-2" },
+            { id = 6,  monitor = "DP-1", default = true },
+            { id = 7,  monitor = "DP-1" },
+            { id = 8,  monitor = "DP-1" },
+            { id = 9,  monitor = "DP-1" },
+            { id = 10, monitor = "DP-1" },
+        }
     },
 
     laptop = {
@@ -76,6 +89,18 @@ local profiles = {
             },
         },
 
+        workspaces = {
+            { id = 1,  monitor = "eDP-1" },
+            { id = 2,  monitor = "eDP-1" },
+            { id = 3,  monitor = "eDP-1" },
+            { id = 4,  monitor = "eDP-1" },
+            { id = 5,  monitor = "eDP-1" },
+            { id = 6,  monitor = "eDP-1", default = true },
+            { id = 7,  monitor = "eDP-1" },
+            { id = 8,  monitor = "eDP-1" },
+            { id = 9,  monitor = "eDP-1" },
+            { id = 10, monitor = "eDP-1" },
+        }
     },
 }
 

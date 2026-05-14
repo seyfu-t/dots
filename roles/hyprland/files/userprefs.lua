@@ -51,6 +51,11 @@ hl.gesture({
 })
 
 hl.device({
+    name = "elan06fa:00-04f3:3293-touchpad",
+    sensitivity = 0.15
+})
+
+hl.device({
     name = "apple-inc.-apple-internal-keyboard-/-trackpad-1",
     sensitivity = 0,
 })

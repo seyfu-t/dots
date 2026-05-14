@@ -13,7 +13,7 @@
     group: "{{ play_user }}"
     state: directory
 
-- name: Copy config files
+- name: Copy lua scripts
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "{{ play_user_config_dir }}/hypr/{{ item }}"
@@ -21,6 +21,14 @@
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
   loop: "{{ _hyprland_config_files }}"
+
+- name: Copy .luarc.json
+  ansible.builtin.copy:
+    src: .luarc.json
+    dest: "{{ play_user_config_dir }}/hypr/.luarc.json"
+    mode: "0644"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
 
 - name: Copy xdph.conf
   ansible.builtin.copy:
@@ -30,22 +38,19 @@
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
 
-- name: Import config files in order
-  ansible.builtin.template:
-    src: hyprland.conf.j2
-    dest: "{{ play_user_config_dir }}/hypr/hyprland.conf"
-    mode: "0644"
-    owner: "{{ play_user }}"
-    group: "{{ play_user }}"
+- name: Check if overrides script exists
+  ansible.builtin.stat:
+    path: "{{ play_user_config_dir }}/hypr/overrides.lua"
+  register: hyprland_overrides
 
-- name: Ensure override file exists
-  ansible.builtin.copy:
-    src: overrides.conf
-    dest: "{{ play_user_config_dir }}/hypr/overrides.conf"
+- name: Ensure override script exists
+  ansible.builtin.file:
+    dest: "{{ play_user_config_dir }}/hypr/overrides.lua"
     mode: "{{ perm_files }}"
-    force: false
+    state: touch
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
+  when: not hyprland_overrides.stat.exists
 
 - name: Copy scripts folder
   ansible.builtin.copy:

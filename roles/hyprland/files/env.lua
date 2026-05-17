@@ -79,15 +79,24 @@ set_all({
     ANSIBLE_HOME = paths.config .. "/ansible",
     ANSIBLE_CONFIG = paths.config .. "/ansible.cfg",
     ANSIBLE_GALAXY_CACHE_DIR = paths.cache .. "/ansible/galaxy_cache",
+    WINEPREFIX = paths.data .. "/wineprefixes/default",
     GTK_RC_FILES = paths.config .. "/gtk-1.0/gtkrc",
     GTK2_RC_FILES = paths.config .. "/gtk-2.0/gtkrc:" .. paths.config .. "/gtk-2.0/gtkrc.mine",
     CUDA_CACHE_PATH = paths.cache .. "/nv",
     PARALLEL_HOME = paths.config .. "/parallel",
+    KERAS_HOME = paths.state .. "/keras",
+
     GRADLE_USER_HOME = paths.data .. "/gradle",
     CARGO_HOME = paths.data .. "/cargo",
     RUSTUP_HOME = paths.data .. "/rustup",
     SQLITE_HISTORY = paths.state .. "/sqlite_history",
-    WINEPREFIX = paths.data .. "/wineprefixes/default",
+    PYENV_ROOT = paths.data .. "/pyenv",
+    _JAVA_OPTIONS = '-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java',
+    NPM_CONFIG_USERCONFIG = paths.data .. "/npm/npmrc",
+
+    DVDCSS_CACHE = paths.data .. "/dvdcss",
+    GNUPGHOME = paths.data .. "/gnupg",
+    HISTFILE = paths.state .. "/bash/history",
 
     -- Other esoteric stuff
     DO_NOT_TRACK = "1",

@@ -1,0 +1,64 @@
+- name: Detect AMD 500 Series chipset xHCI controller
+  ansible.builtin.shell: |
+    set -euo pipefail
+
+    matches=()
+
+    for dev in /sys/bus/pci/devices/*; do
+      [[ -r "$dev/vendor" && -r "$dev/device" && -r "$dev/class" ]] || continue
+
+      vendor="$(< "$dev/vendor")"
+      device="$(< "$dev/device")"
+      class="$(< "$dev/class")"
+
+      # AMD 500 Series Chipset USB 3.1 XHCI Controller
+      # Usually shown by lspci as: [1022:43ee], class USB/XHCI [0c03/30].
+      if [[ "$vendor" == "0x1022" && "$device" == "0x43ee" && "$class" == "0x0c0330" ]]; then
+        matches+=("$(basename "$dev")")
+      fi
+    done
+
+    printf '%s\n' "${matches[@]}"
+  args:
+    executable: /bin/bash
+  register: suspend_amd_xhci_devices
+  changed_when: false
+  failed_when: false
+
+- name: Install udev rule disabling wakeup for AMD 500 Series chipset xHCI
+  ansible.builtin.template:
+    src: 90-disable-amd-500-xhci-wakeup.rules.j2
+    dest: /etc/udev/rules.d/90-disable-amd-500-xhci-wakeup.rules
+    owner: root
+    group: root
+    mode: "0644"
+  when: suspend_amd_xhci_devices.stdout_lines | length > 0
+  notify: Reload udev rules
+
+- name: Disable wakeup for detected AMD 500 Series chipset xHCI now
+  ansible.builtin.shell: |
+    set -euo pipefail
+
+    changed=0
+
+    for bdf in {{ suspend_amd_xhci_devices.stdout_lines | map('quote') | join(' ') }}; do
+      wakeup="/sys/bus/pci/devices/${bdf}/power/wakeup"
+
+      if [[ -e "$wakeup" && "$(< "$wakeup")" != "disabled" ]]; then
+        echo disabled > "$wakeup"
+        echo "changed ${bdf}"
+        changed=1
+      fi
+    done
+
+    exit 0
+  args:
+    executable: /bin/bash
+  register: suspend_disable_wakeup
+  changed_when: "'changed' in suspend_disable_wakeup.stdout"
+  when: suspend_amd_xhci_devices.stdout_lines | length > 0
+
+- name: Report no matching suspend workaround device
+  ansible.builtin.debug:
+    msg: "AMD 500 Series chipset xHCI controller not detected; no udev rule installed."
+  when: suspend_amd_xhci_devices.stdout_lines | length == 0

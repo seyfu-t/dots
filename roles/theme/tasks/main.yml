@@ -16,7 +16,7 @@
     use: yay
     aur_only: true
     name:
-      - qt6ct-kde
+      - hyprqt6engine
       - qt5ct-kde
 
 - name: Configure GTK theming

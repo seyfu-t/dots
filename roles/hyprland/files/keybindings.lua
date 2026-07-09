@@ -31,7 +31,7 @@ hl.bind(mainMod .. " + Delete", hl.dsp.exit())
 hl.bind(mainMod .. " + Backspace", exec("pkill -x rofi || " .. paths.config .. "/rofi/powermenu/type-5/powermenu.sh"))
 hl.bind(mainMod .. " + Space", exec("pkill -x rofi || " .. paths.config .. "/rofi/launchers/type-2/launcher.sh"))
 
-hl.bind(mainMod .. " + L", exec("hyprlock"))
+hl.bind(mainMod .. " + L", exec("hyprlock --grace 2"))
 hl.bind(mainMod .. " + D", hl.dsp.layout("togglesplit"))
 hl.bind(mainMod .. " + W", hl.dsp.window.float({ action = "toggle" }))
 hl.bind("ALT + Return", hl.dsp.window.fullscreen({ action = "toggle" }))

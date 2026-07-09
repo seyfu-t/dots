@@ -1,5 +1,6 @@
 - name: Copy ozone flags to config
   ansible.builtin.copy:
+    backup: true
     src: electron-flags.conf
     dest: "{{ play_user_config_dir }}/electron-flags.conf"
     mode: "{{ perm_files }}"

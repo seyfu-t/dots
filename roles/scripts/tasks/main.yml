@@ -11,6 +11,7 @@
 
 - name: Copy ddc script to local bin
   ansible.builtin.copy:
+    backup: true
     src: ddc.nu
     dest: /usr/local/bin/ddc.nu
     mode: "0755"

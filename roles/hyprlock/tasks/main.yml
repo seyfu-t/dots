@@ -4,6 +4,7 @@
 
 - name: Copy compose file
   ansible.builtin.copy:
+    backup: true
     src: hyprlock.conf
     dest: "{{ play_user_config_dir }}/hypr/hyprlock.conf"
     mode: "{{ perm_files }}"
@@ -20,6 +21,7 @@
 
 - name: Copy assets
   ansible.builtin.copy:
+    backup: true
     src: "assets/{{ item }}"
     dest: "{{ play_user_config_dir }}/hypr/assets/{{ item }}"
     mode: "{{ perm_files }}"

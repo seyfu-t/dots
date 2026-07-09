@@ -15,6 +15,7 @@
 
 - name: Copy over hypridle config
   ansible.builtin.copy:
+    backup: true
     src: hypridle.conf
     dest: "{{ play_user_config_dir }}/hypr/hypridle.conf"
     mode: "{{ perm_files }}"

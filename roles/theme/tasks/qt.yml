@@ -8,6 +8,7 @@
 
 - name: Copy qt5 config
   ansible.builtin.copy:
+    backup: true
     src: qt5ct.conf
     dest: "{{ play_user_config_dir }}/qt5ct/qt5ct.conf"
     owner: "{{ play_user }}"
@@ -16,6 +17,7 @@
 
 - name: Copy hyprqt6engine config
   ansible.builtin.copy:
+    backup: true
     src: hyprqt6engine.conf
     dest: "{{ play_user_config_dir }}/hypr/hyprqt6engine.conf"
     owner: "{{ play_user }}"

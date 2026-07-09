@@ -8,6 +8,7 @@
 
 - name: Install cache updater hook
   ansible.builtin.copy:
+    backup: true
     src: updateKDEcache.hook
     dest: /etc/pacman.d/hooks/updateKDEcache.hook
     owner: root
@@ -29,6 +30,7 @@
 
 - name: Copy KNotifications override to local folder
   ansible.builtin.copy:
+    backup: true
     src: plasma_workspace.notifyrc
     dest: "{{ play_user_data_dir }}/knotifications6/plasma_workspace.notifyrc"
     owner: "{{ play_user }}"

@@ -15,6 +15,7 @@
 
 - name: Copy lua scripts
   ansible.builtin.copy:
+    backup: true
     src: "{{ item }}"
     dest: "{{ play_user_config_dir }}/hypr/{{ item }}"
     mode: "0644"
@@ -24,6 +25,7 @@
 
 - name: Copy .luarc.json
   ansible.builtin.copy:
+    backup: true
     src: .luarc.json
     dest: "{{ play_user_config_dir }}/hypr/.luarc.json"
     mode: "0644"
@@ -32,6 +34,7 @@
 
 - name: Copy xdph.conf
   ansible.builtin.copy:
+    backup: true
     src: xdph.conf
     dest: "{{ play_user_config_dir }}/hypr/xdph.conf"
     mode: "0644"
@@ -54,6 +57,7 @@
 
 - name: Copy scripts folder
   ansible.builtin.copy:
+    backup: true
     src: scripts/
     dest: "{{ play_user_config_dir }}/hypr/scripts"
     mode: "{{ perm_folders }}"

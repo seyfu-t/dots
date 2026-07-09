@@ -23,6 +23,7 @@
 
 - name: Copy compose file
   ansible.builtin.copy:
+    backup: true
     src: compose.yml
     dest: /srv/searxng/compose.yml
     mode: "{{ perm_files }}"

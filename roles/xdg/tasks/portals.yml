@@ -8,6 +8,7 @@
 
 - name: Copy xdg desktop portal config file
   ansible.builtin.copy:
+    backup: true
     src: portals.conf
     dest: "{{ play_user_config_dir }}/xdg-desktop-portal/portals.conf"
     owner: "{{ play_user }}"

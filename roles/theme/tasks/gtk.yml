@@ -8,6 +8,7 @@
 
 - name: Copy gtk3 config
   ansible.builtin.copy:
+    backup: true
     src: settings_gtk3.ini
     dest: "{{ play_user_config_dir }}/gtk-3.0/settings.ini"
     owner: "{{ play_user }}"
@@ -24,6 +25,7 @@
 
 - name: Copy gtk4 config
   ansible.builtin.copy:
+    backup: true
     src: settings_gtk4.ini
     dest: "{{ play_user_config_dir }}/gtk-4.0/settings.ini"
     owner: "{{ play_user }}"

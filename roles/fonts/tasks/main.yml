@@ -8,6 +8,7 @@
 
 - name: Install TTF fonts
   ansible.builtin.copy:
+    backup: true
     src: "{{ item }}"
     dest: "{{ play_user_data_dir }}/fonts/{{ item }}"
     mode: "0644"

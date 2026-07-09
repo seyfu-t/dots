@@ -13,6 +13,7 @@
 
 - name: Copy config
   ansible.builtin.copy:
+    backup: true
     src: rofi/
     dest: "{{ play_user_config_dir }}/rofi"
     owner: "{{ play_user }}"

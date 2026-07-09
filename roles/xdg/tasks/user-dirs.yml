@@ -1,5 +1,6 @@
 - name: Copy dirs config
   ansible.builtin.copy:
+    backup: true
     src: user-dirs.dirs
     dest: "{{ play_user_config_dir }}/user-dirs.dirs"
     owner: "{{ play_user }}"

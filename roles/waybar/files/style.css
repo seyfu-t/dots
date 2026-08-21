@@ -4,7 +4,6 @@
     font-family: "JetBrainsMono Nerd Font", "JetBrains Mono", monospace;
     font-weight: bold;
     font-size: 16px;
-    min-height: 0;
 }
 
 window#waybar {
@@ -108,7 +107,7 @@ tooltip {
     color: #89b4fa;
     border-radius: 0px 10px 10px 0px;
     margin-right: 10px
-} 
+}
 
 #pulseaudio {
     color: #89b4fa;
@@ -135,4 +134,4 @@ tooltip {
 }
 #battery.critical {
     color: #F00;
-} 
+}

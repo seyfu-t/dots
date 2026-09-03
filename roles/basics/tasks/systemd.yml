@@ -1,0 +1,17 @@
+- name: Enable system systemd units
+  become: true
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+    scope: system
+  loop: basics_systemd_enable_system
+
+- name: Enable user systemd units
+  become: false
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+    scope: user
+  loop: basics_systemd_enable_user

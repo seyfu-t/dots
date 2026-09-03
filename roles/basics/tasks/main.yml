@@ -24,3 +24,6 @@
     regexp: "127\\.0\\.1\\.1(\\s+{{ ansible_facts['hostname'] }})?"
     line: "127.0.1.1        {{ ansible_facts['hostname'] }}"
     state: present
+
+- name: Setup systemd units
+  ansible.builtin.include_tasks: systemd.yml

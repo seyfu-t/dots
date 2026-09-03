@@ -35,7 +35,8 @@ set_all({
     GDK_BACKEND = "wayland,x11,*",
     CLUTTER_BACKEND = "wayland",
 
-    -- KWallet
+    -- SSH / KWallet
+    SSH_AUTH_SOCK = paths.require_env("XDG_RUNTIME_DIR") .. "/ssh-agent.socket",
     SSH_ASKPASS = "/usr/bin/ksshaskpass",
     SSH_ASKPASS_REQUIRE = "prefer",
     GIT_ASKPASS = "/usr/bin/ksshaskpass",

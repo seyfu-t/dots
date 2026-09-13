@@ -1,0 +1,1 @@
+ACTION=="add|change", SUBSYSTEM=="pci", ATTR{vendor}=="0x1022", ATTR{device}=="0x43ee", ATTR{class}=="0x0c0330", TEST=="power/wakeup", ATTR{power/wakeup}="disabled"

@@ -18,12 +18,14 @@
       fi
     done
 
-    printf '%s\n' "${matches[@]}"
+    if [[ -n "${matches[*]}" ]]; then
+      printf '%s\n' "${matches[@]}"
+    fi
   args:
     executable: /bin/bash
-  register: suspend_amd_xhci_devices
+  register: mitigations_amd_xhci_devices
   changed_when: false
-  failed_when: false
+  check_mode: false
 
 - name: Install udev rule disabling wakeup for AMD 500 Series chipset xHCI
   ansible.builtin.template:
@@ -32,33 +34,32 @@
     owner: root
     group: root
     mode: "0644"
-  when: suspend_amd_xhci_devices.stdout_lines | length > 0
+  when: mitigations_amd_xhci_devices.stdout_lines | length > 0
   notify: Reload udev rules
 
 - name: Disable wakeup for detected AMD 500 Series chipset xHCI now
   ansible.builtin.shell: |
     set -euo pipefail
 
-    changed=0
-
-    for bdf in {{ suspend_amd_xhci_devices.stdout_lines | map('quote') | join(' ') }}; do
+    for bdf in {{ mitigations_amd_xhci_devices.stdout_lines | map('quote') | join(' ') }}; do
       wakeup="/sys/bus/pci/devices/${bdf}/power/wakeup"
 
       if [[ -e "$wakeup" && "$(< "$wakeup")" != "disabled" ]]; then
         echo disabled > "$wakeup"
         echo "changed ${bdf}"
-        changed=1
       fi
     done
 
     exit 0
   args:
     executable: /bin/bash
-  register: suspend_disable_wakeup
-  changed_when: "'changed' in suspend_disable_wakeup.stdout"
-  when: suspend_amd_xhci_devices.stdout_lines | length > 0
+  register: mitigations_disable_wakeup
+  changed_when: "'changed' in mitigations_disable_wakeup.stdout"
+  when:
+    - mitigations_amd_xhci_devices.stdout_lines | length > 0
+    - not ansible_check_mode
 
 - name: Report no matching suspend workaround device
   ansible.builtin.debug:
     msg: "AMD 500 Series chipset xHCI controller not detected; no udev rule installed."
-  when: suspend_amd_xhci_devices.stdout_lines | length == 0
+  when: mitigations_amd_xhci_devices.stdout_lines | length == 0

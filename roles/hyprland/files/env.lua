@@ -92,7 +92,7 @@ set_all({
     RUSTUP_HOME = paths.data .. "/rustup",
     SQLITE_HISTORY = paths.state .. "/sqlite_history",
     PYENV_ROOT = paths.data .. "/pyenv",
-    _JAVA_OPTIONS = '-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java',
+    _JAVA_OPTIONS = '-Djava.util.prefs.userRoot="' .. paths.config .. '/java"',
     NPM_CONFIG_USERCONFIG = paths.data .. "/npm/npmrc",
 
     DVDCSS_CACHE = paths.data .. "/dvdcss",

@@ -13,6 +13,8 @@
 - name: Enable user-wide remote (flathub)
   become: true
   become_user: "{{ play_user }}"
+  environment:
+    XDG_DATA_HOME: "{{ play_user_data_dir }}"
   community.general.flatpak_remote:
     name: flathub
     state: present

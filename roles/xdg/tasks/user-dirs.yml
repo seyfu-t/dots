@@ -13,6 +13,8 @@
   register: xdg_dirs
   become_user: "{{ play_user }}"
   become: true
+  environment:
+    XDG_CONFIG_HOME: "{{ play_user_config_dir }}"
   loop:
     - DESKTOP
     - DOCUMENTS
@@ -32,3 +34,4 @@
     mode: "{{ perm_folders }}"
     path: "{{ item.stdout }}"
   loop: "{{ xdg_dirs.results }}"
+  when: not (item.skipped | default(false))

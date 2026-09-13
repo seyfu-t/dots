@@ -1,4 +1,6 @@
 - name: Install dunst
   community.general.pacman:
     state: present
-    name: dunst
+    name:
+      - dunst
+      - libnotify

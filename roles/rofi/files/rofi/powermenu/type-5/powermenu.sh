@@ -10,7 +10,7 @@
 ## style-1   style-2   style-3   style-4   style-5
 
 # Current Theme
-dir="$HOME/.config/rofi/powermenu/type-5"
+dir="${XDG_CONFIG_HOME:-$HOME/.config}/rofi/powermenu/type-5"
 theme='style-5'
 
 # CMDs
@@ -33,7 +33,8 @@ rofi_cmd() {
 	rofi -dmenu \
 		-p " $USER@$host" \
 		-mesg " Last Login: $lastlogin |  Uptime: $uptime" \
-		-theme ${dir}/${theme}.rasi
+		-theme "${dir}/${theme}.rasi" \
+		-theme-str "inputbar { background-image: url(\"${dir}/../../images/j.jpg\", width); }"
 }
 
 # Confirmation CMD
@@ -46,7 +47,7 @@ confirm_cmd() {
 		-dmenu \
 		-p 'Confirmation' \
 		-mesg 'Are you Sure?' \
-		-theme ${dir}/${theme}.rasi
+		-theme "${dir}/${theme}.rasi"
 }
 
 # Ask for confirmation
@@ -70,11 +71,13 @@ run_cmd() {
 		elif [[ $1 == '--hibernate' ]]; then
 			systemctl hibernate
 		elif [[ $1 == '--suspend' ]]; then
-			mpc -q pause
-			amixer set Master mute
+			playerctl --all-players pause
+			pamixer --mute
 			systemctl suspend
 		elif [[ $1 == '--logout' ]]; then
-			if [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
+			if [[ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]]; then
+				hyprctl dispatch 'hl.dsp.exit()'
+			elif [[ "$DESKTOP_SESSION" == 'openbox' ]]; then
 				openbox --exit
 			elif [[ "$DESKTOP_SESSION" == 'bspwm' ]]; then
 				bspc quit
@@ -102,7 +105,9 @@ case ${chosen} in
 		run_cmd --hibernate
         ;;
     $lock)
-		if [[ -x '/usr/bin/betterlockscreen' ]]; then
+		if [[ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]]; then
+			pidof hyprlock || hyprlock
+		elif [[ -x '/usr/bin/betterlockscreen' ]]; then
 			betterlockscreen -l
 		elif [[ -x '/usr/bin/i3lock' ]]; then
 			i3lock

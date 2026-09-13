@@ -5,7 +5,7 @@
     state: started
     enabled: true
     scope: system
-  loop: basics_systemd_enable_system
+  loop: "{{ basics_systemd_enable_system }}"
 
 - name: Enable user systemd units
   become: false
@@ -14,4 +14,4 @@
     state: started
     enabled: true
     scope: user
-  loop: basics_systemd_enable_user
+  loop: "{{ basics_systemd_enable_user }}"

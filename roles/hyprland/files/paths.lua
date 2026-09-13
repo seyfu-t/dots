@@ -10,12 +10,20 @@ end
 
 local home = require_env("HOME")
 
+local function xdg_dir(name, fallback)
+    local value = os.getenv(name)
+    return value ~= nil and value ~= "" and value or home .. fallback
+end
+
 return {
     require_env = require_env,
+    shell_quote = function(value)
+        return "'" .. value:gsub("'", "'\\''") .. "'"
+    end,
 
     home = home,
-    config = os.getenv("XDG_CONFIG_HOME") or home .. "/.config",
-    cache = os.getenv("XDG_CACHE_HOME") or home .. "/.cache",
-    data = os.getenv("XDG_DATA_HOME") or home .. "/.local/share",
-    state = os.getenv("XDG_STATE_HOME") or home .. "/.local/state",
+    config = xdg_dir("XDG_CONFIG_HOME", "/.config"),
+    cache = xdg_dir("XDG_CACHE_HOME", "/.cache"),
+    data = xdg_dir("XDG_DATA_HOME", "/.local/share"),
+    state = xdg_dir("XDG_STATE_HOME", "/.local/state"),
 }

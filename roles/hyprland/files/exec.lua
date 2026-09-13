@@ -19,7 +19,7 @@ run([[gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"]])
 for _, cmd in ipairs({
     -- Old `exec-once = ...`
     -- These run once on Hyprland startup.
-    "mkdir -p " .. paths.data .. "/wineprefixes",
+    "mkdir -p " .. paths.shell_quote(paths.data .. "/wineprefixes"),
     "dbus-update-activation-environment --systemd --all",
     "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP",
 

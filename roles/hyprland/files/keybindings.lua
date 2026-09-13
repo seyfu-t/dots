@@ -1,5 +1,5 @@
 local paths = require("paths")
-local scripts = paths.config .. "/hypr/scripts"
+local scripts = paths.shell_quote(paths.config .. "/hypr/scripts")
 
 local mainMod = "SUPER"
 
@@ -28,8 +28,8 @@ hl.bind("ALT + F4", hl.dsp.window.kill())
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + Delete", hl.dsp.exit())
 
-hl.bind(mainMod .. " + Backspace", exec("pkill -x rofi || " .. paths.config .. "/rofi/powermenu/type-5/powermenu.sh"))
-hl.bind(mainMod .. " + Space", exec("pkill -x rofi || " .. paths.config .. "/rofi/launchers/type-2/launcher.sh"))
+hl.bind(mainMod .. " + Backspace", exec("pkill -x rofi || " .. paths.shell_quote(paths.config .. "/rofi/powermenu/type-5/powermenu.sh")))
+hl.bind(mainMod .. " + Space", exec("pkill -x rofi || " .. paths.shell_quote(paths.config .. "/rofi/launchers/type-2/launcher.sh")))
 
 hl.bind(mainMod .. " + L", exec("hyprlock --grace 2"))
 hl.bind(mainMod .. " + D", hl.dsp.layout("togglesplit"))

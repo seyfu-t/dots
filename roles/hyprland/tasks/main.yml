@@ -4,6 +4,7 @@
     name:
       - hyprland
       - hyprpicker
+      - playerctl
 
 - name: Create hypr config folder
   ansible.builtin.file:

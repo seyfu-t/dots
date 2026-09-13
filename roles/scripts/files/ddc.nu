@@ -12,8 +12,12 @@ def main [input: int] {
         | where ($it | str contains "Monitor:")
         | each {|e| $e | split row ":" | last | str trim}
     )
-    
+
+    if ($serial_numbers | is-empty) {
+        error make { msg: "No DDC monitors detected" }
+    }
+
     $serial_numbers | par-each {|e| ddcutil --sn $e setvcp 10 $input}
-    
-    print $"DDC input set to ($input) for both monitors."
+
+    print $"Brightness set to ($input)% for ($serial_numbers | length) monitor(s)."
 }

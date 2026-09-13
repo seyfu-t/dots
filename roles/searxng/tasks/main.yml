@@ -10,28 +10,34 @@
     state: started
     enabled: true
 
-- name: Create directory
+- name: Create root-owned Compose project directory
   ansible.builtin.file:
-    dest: "{{ item }}"
+    path: /srv/searxng
     state: directory
-    mode: "{{ perm_folders }}"
-    owner: "{{ play_user }}"
-    group: "{{ play_user }}"
-  loop:
-    - /srv/searxng
-    - /srv/searxng/config
+    mode: "0755"
+    owner: root
+    group: root
+
+# The image manages ownership of its configuration volume.
+- name: Create configuration directory
+  ansible.builtin.file:
+    path: /srv/searxng/config
+    state: directory
+    mode: "0755"
 
 - name: Copy compose file
   ansible.builtin.copy:
     backup: true
     src: compose.yml
     dest: /srv/searxng/compose.yml
-    mode: "{{ perm_files }}"
-    owner: "{{ play_user }}"
-    group: "{{ play_user }}"
+    mode: "0644"
+    owner: root
+    group: root
 
 - name: Start docker-compose
   community.docker.docker_compose_v2:
     project_src: /srv/searxng
+    files:
+      - compose.yml
     state: present
     recreate: auto

@@ -6,12 +6,16 @@
 
 - name: Configure LANG
   ansible.builtin.lineinfile:
-    regexp: '^#?LANG'
+    regexp: '^#?LANG='
     line: "LANG=en_GB.UTF-8"
     path: /etc/locale.conf
+    create: true
+    owner: root
+    group: root
+    mode: "0644"
 
 - name: Configure LC_TIME
   ansible.builtin.lineinfile:
-    regexp: '^#?LC_TIME'
+    regexp: '^#?LC_TIME='
     line: "LC_TIME=de_DE.UTF-8"
     path: /etc/locale.conf

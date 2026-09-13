@@ -1,3 +1,12 @@
 - name: Refresh font cache
-  ansible.builtin.command: fc-cache -f -v
+  become: true
+  become_user: "{{ play_user }}"
+  environment:
+    XDG_DATA_HOME: "{{ play_user_data_dir }}"
+    XDG_CACHE_HOME: "{{ play_user_cache_dir }}"
+  ansible.builtin.command:
+    argv:
+      - fc-cache
+      - --force
+      - "{{ play_user_data_dir }}/fonts"
   changed_when: true

@@ -7,11 +7,34 @@
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
 
+- name: Read user Flatpak overrides
+  become: true
+  become_user: "{{ play_user }}"
+  environment:
+    XDG_DATA_HOME: "{{ play_user_data_dir }}"
+  ansible.builtin.command:
+    cmd: flatpak override --user --show
+  register: wayland_flatpak_overrides
+  changed_when: false
+  check_mode: false
+
 - name: Disable x11 in all flatpaks and enable wayland
-  changed_when: true
+  become: true
+  become_user: "{{ play_user }}"
+  environment:
+    XDG_DATA_HOME: "{{ play_user_data_dir }}"
+  vars:
+    _wayland_flatpak_sockets: >-
+      {{ (wayland_flatpak_overrides.stdout | community.general.from_ini)
+         .get('Context', {}).get('sockets', '').split(';') }}
   ansible.builtin.command:
     cmd: |
       flatpak override --user
       --socket=wayland
       --nosocket=x11
       --nosocket=fallback-x11
+  changed_when: true
+  when: >-
+    (_wayland_flatpak_sockets
+     | select('match', '^(!?(wayland|x11|fallback-x11)|if:(wayland|x11|fallback-x11):.*)$')
+     | sort) != ['!fallback-x11', '!x11', 'wayland']

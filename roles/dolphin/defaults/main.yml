@@ -1,5 +1,6 @@
 dolphin_packages:
   - dolphin
+  - archlinux-xdg-menu
   - ark
   - kio-admin
   - ffmpegthumbs

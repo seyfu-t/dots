@@ -8,6 +8,8 @@
 - name: Install tide
   become: true
   become_user: "{{ play_user }}"
+  environment:
+    XDG_CONFIG_HOME: "{{ play_user_config_dir }}"
   ansible.builtin.command:
     cmd: fish -c "fisher install IlanCosman/tide@v6"
   changed_when: true
@@ -15,6 +17,8 @@
 - name: Configure tide
   become: true
   become_user: "{{ play_user }}"
+  environment:
+    XDG_CONFIG_HOME: "{{ play_user_config_dir }}"
   ansible.builtin.command:
     cmd: >
       fish -c "tide configure

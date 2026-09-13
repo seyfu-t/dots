@@ -1,0 +1,17 @@
+# Adapted from egnrse's KService cache hook.
+# Target the configured user explicitly: logname is unreliable without a login terminal.
+
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Path
+Target = usr/share/applications/*.desktop
+
+[Action]
+Description = Updating the Kservice desktop file configuration cache...
+When = PostTransaction
+Exec = /usr/bin/runuser --user {{ play_user | quote }} -- /usr/bin/env {{ ('HOME=' ~ play_user_home) | quote }} {{ ('XDG_CONFIG_HOME=' ~ play_user_config_dir) | quote }} {{ ('XDG_DATA_HOME=' ~ play_user_data_dir) | quote }} {{ ('XDG_CACHE_HOME=' ~ play_user_cache_dir) | quote }} XDG_MENU_PREFIX=arch- /usr/bin/kbuildsycoca6 --noincremental
+Depends = util-linux
+Depends = kservice
+Depends = archlinux-xdg-menu

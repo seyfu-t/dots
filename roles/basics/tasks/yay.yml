@@ -1,35 +1,64 @@
-- name: Ensure yay-bin build directory exists
-  become: false
-  ansible.builtin.file:
-    path: "{{ basics_yay_build_dir }}"
+- name: Require an unprivileged yay build user
+  ansible.builtin.assert:
+    that:
+      - ansible_facts.getent_passwd[play_user][1] | int != 0
+    fail_msg: Set play_user to a non-root account for building AUR packages.
+
+- name: Create a private yay build directory
+  ansible.builtin.tempfile:
     state: directory
-    mode: "0755"
+    path: "{{ basics_yay_build_dir | dirname }}"
+    prefix: "{{ basics_yay_build_dir | basename }}-"
+  register: basics_yay_temp
 
-- name: Download yay-bin PKGBUILD
-  become: false
-  ansible.builtin.get_url:
-    url: "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay-bin"
-    dest: "{{ basics_yay_build_dir }}/PKGBUILD"
-    mode: "0644"
-    force: true
+- name: Build and install yay-bin
+  block:
+    - name: Assign build directory to the build user
+      ansible.builtin.file:
+        path: "{{ basics_yay_temp.path }}"
+        state: directory
+        owner: "{{ play_user }}"
+        group: "{{ ansible_facts.getent_passwd[play_user][2] }}"
+        mode: "0700"
 
-- name: Build yay-bin with makepkg
-  tags: skip_ansible_lint
-  become: false
-  ansible.builtin.command:
-    chdir: "{{ basics_yay_build_dir }}"
-    cmd: "makepkg -sf --noconfirm"
+    - name: Download yay-bin PKGBUILD
+      become: true
+      become_user: "{{ play_user }}"
+      ansible.builtin.get_url:
+        url: "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay-bin"
+        dest: "{{ basics_yay_temp.path }}/PKGBUILD"
+        mode: "0644"
 
-- name: Find built yay-bin package
-  ansible.builtin.find:
-    paths: "{{ basics_yay_build_dir }}"
-    patterns: "yay-bin-*.pkg.tar.zst"
-    recurse: false
-  register: basics_yay_bin_pkgs
+    - name: Build yay-bin with makepkg
+      become: true
+      become_user: "{{ play_user }}"
+      ansible.builtin.command:
+        chdir: "{{ basics_yay_temp.path }}"
+        cmd: makepkg -sf --noconfirm
+      changed_when: true
 
-- name: Install yay-bin package with pacman
-  become: true
-  community.general.pacman:
-    name: "{{ item.path }}"
-    state: present
-  loop: "{{ basics_yay_bin_pkgs.files }}"
+    - name: Get built package paths
+      become: true
+      become_user: "{{ play_user }}"
+      ansible.builtin.command:
+        chdir: "{{ basics_yay_temp.path }}"
+        cmd: makepkg --packagelist
+      register: basics_yay_package_list
+      changed_when: false
+
+    - name: Require a built package
+      ansible.builtin.assert:
+        that:
+          - basics_yay_package_list.stdout_lines | length > 0
+
+    - name: Install yay-bin package with pacman
+      become: true
+      community.general.pacman:
+        name: "{{ basics_yay_package_list.stdout_lines }}"
+        state: present
+
+  always:
+    - name: Remove the temporary yay build directory
+      ansible.builtin.file:
+        path: "{{ basics_yay_temp.path }}"
+        state: absent

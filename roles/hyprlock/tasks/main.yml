@@ -2,7 +2,15 @@
   community.general.pacman:
     name: hyprlock
 
-- name: Copy compose file
+- name: Create hypr config folder
+  ansible.builtin.file:
+    path: "{{ play_user_config_dir }}/hypr"
+    state: directory
+    mode: "{{ perm_folders }}"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+
+- name: Copy hyprlock config
   ansible.builtin.copy:
     backup: true
     src: hyprlock.conf

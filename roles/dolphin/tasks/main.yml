@@ -7,13 +7,13 @@
     state: directory
 
 - name: Install cache updater hook
-  ansible.builtin.copy:
+  ansible.builtin.template:
     backup: true
-    src: updateKDEcache.hook
+    src: updateKDEcache.hook.j2
     dest: /etc/pacman.d/hooks/updateKDEcache.hook
     owner: root
     group: root
-    mode: "{{ perm_folders }}"
+    mode: "0644"
 
 - name: Install dolphin file manager & optional dependencies
   community.general.pacman:

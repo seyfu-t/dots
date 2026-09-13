@@ -8,20 +8,28 @@
     state: present
     name: "{{ basics_packages }}"
 
-- name: Check if yay already
-  ansible.builtin.command: which yay
+- name: Look up the target user
+  ansible.builtin.getent:
+    database: passwd
+    key: "{{ play_user }}"
+
+- name: Check if yay is installed
+  ansible.builtin.command: /usr/bin/pacman -Qq yay yay-bin yay-git
   register: basics_yay_is_installed
   changed_when: false
-  failed_when: false
+  failed_when: basics_yay_is_installed.rc not in [0, 1]
+  check_mode: false
 
 - name: Install yay
   ansible.builtin.include_tasks: yay.yml
-  when: basics_yay_is_installed.rc != 0
+  when:
+    - basics_yay_is_installed.stdout_lines | length == 0
+    - not ansible_check_mode
 
 - name: Add hostname as entry for /etc/hosts (this fixes some bugs including https://github.com/flatpak/flatpak/issues/4194)
   ansible.builtin.lineinfile:
     path: /etc/hosts
-    regexp: "127\\.0\\.1\\.1(\\s+{{ ansible_facts['hostname'] }})?"
+    regexp: '^127\.0\.1\.1\s+'
     line: "127.0.1.1        {{ ansible_facts['hostname'] }}"
     state: present
 

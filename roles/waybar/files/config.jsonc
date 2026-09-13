@@ -1,7 +1,7 @@
 {
     "layer": "bottom",
     "position": "bottom",
-    "mod": "dock",
+    "mode": "dock",
     "exclusive": true,
     "passthrough": false,
     "gtk-layer-shell": true,
@@ -26,7 +26,7 @@
         "format": "{icon}",
         "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'",
         "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
-        "persistent_workspaces": {
+        "persistent-workspaces": {
             "*": 1
         }
     },

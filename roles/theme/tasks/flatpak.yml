@@ -1,20 +1,45 @@
 - name: Install Breeze for flatpak
   become: true
   become_user: "{{ play_user }}"
+  environment:
+    XDG_DATA_HOME: "{{ play_user_data_dir }}"
   community.general.flatpak:
     state: present
-    name: org.gtk.Gtk3theme.Breeze
+    name: "org.gtk.Gtk3theme.{{ global_theme }}"
     method: user
+
+- name: Read user Flatpak overrides
+  become: true
+  become_user: "{{ play_user }}"
+  environment:
+    XDG_DATA_HOME: "{{ play_user_data_dir }}"
+  ansible.builtin.command:
+    cmd: flatpak override --user --show
+  register: theme_flatpak_overrides
+  changed_when: false
+  check_mode: false
 
 - name: Add global read only paths for theming
   become: true
   become_user: "{{ play_user }}"
+  environment:
+    XDG_DATA_HOME: "{{ play_user_data_dir }}"
+  vars:
+    _theme_flatpak_settings: "{{ theme_flatpak_overrides.stdout | community.general.from_ini }}"
   ansible.builtin.command:
-    cmd: |
-      flatpak override --user
-      --filesystem=~/.themes:ro
-      --filesystem=~/.icons:ro
-      --filesystem=~/.local/share/themes:ro
-      --env=GTK_THEME=Breeze-Dark
-      --env=ICON_THEME=Breeze-Dark
+    argv:
+      - flatpak
+      - override
+      - --user
+      - --filesystem=~/.themes:ro
+      - --filesystem=~/.icons:ro
+      - --filesystem=~/.local/share/themes:ro
+      - "--env=GTK_THEME={{ global_theme }}"
+      - "--env=ICON_THEME={{ global_icons }}"
   changed_when: true
+  when: >-
+    (['~/.themes:ro', '~/.icons:ro', '~/.local/share/themes:ro']
+     | difference(_theme_flatpak_settings.get('Context', {}).get('filesystems', '').split(';'))
+     | length > 0)
+    or _theme_flatpak_settings.get('Environment', {}).get('GTK_THEME') != global_theme
+    or _theme_flatpak_settings.get('Environment', {}).get('ICON_THEME') != global_icons

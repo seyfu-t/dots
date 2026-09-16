@@ -66,23 +66,14 @@ local function position_popup(w)
     }))
 end
 
-hl.window_rule({
-    match = {
-        initial_class = "app\\.zen_browser\\.zen",
-        initial_title = "Zen Browser",
-    },
-    suppress_event = "maximize fullscreen",
-})
-
 hl.on("window.open", function(w)
     if w.class ~= "app.zen_browser.zen" then return end
     if w.initial_title ~= "Zen Browser" then return end
 
-    -- Don't affect the first/main Zen window.
     local zen_windows = hl.get_windows({ class = "app.zen_browser.zen" })
     if #zen_windows <= 1 then return end
 
-    -- Float immediately, before we know what this window actually is.
+    -- Make it look like a popup immediately.
     hl.dispatch(hl.dsp.window.float({
         action = "set",
         window = w,
@@ -93,7 +84,6 @@ hl.on("window.open", function(w)
     sub = hl.on("window.title", function(tw)
         if tw.address ~= w.address then return end
 
-        -- Ignore Firefox/Zen's intermediate titles.
         if tw.title == ""
             or tw.title == "Zen Browser"
             or tw.title == "about:blank" then
@@ -102,13 +92,36 @@ hl.on("window.open", function(w)
 
         sub:remove()
 
-        -- Keep extension windows floating.
         if tw.title:sub(1, #"Extension:") == "Extension:" then
+            -- Repair Firefox's pre-title positioning.
             position_popup(tw)
+
+            -- Firefox/Zen then does:
+            -- normal -> maximized -> normal.
+            -- Wait for that cycle to finish before applying the final position.
+            local saw_maximize = false
+            local fs_sub
+
+            fs_sub = hl.on("window.fullscreen", function(fw)
+                if fw.address ~= tw.address then return end
+
+                if fw.fullscreen == 1 then
+                    saw_maximize = true
+                    return
+                end
+
+                if saw_maximize and fw.fullscreen == 0 then
+                    fs_sub:remove()
+                    fs_sub = nil
+
+                    position_popup(fw)
+                end
+            end)
+
             return
         end
 
-        -- It turned out to be a normal Zen window.
+        -- It was just another ordinary Zen window.
         hl.dispatch(hl.dsp.window.float({
             action = "unset",
             window = tw,

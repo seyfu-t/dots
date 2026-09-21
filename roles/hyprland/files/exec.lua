@@ -33,8 +33,7 @@ for _, cmd in ipairs({
     "wl-paste --type text --watch cliphist store",
     "wl-paste --type image --watch cliphist store",
     "hypridle",
-    "/usr/lib/pam_kwallet_init",
-    [[bash -c 'ssh-add "$HOME"/.ssh/keys/id_* </dev/null']],
+    [[bash -c '/usr/lib/pam_kwallet_init && gdbus wait --session --timeout 10 org.freedesktop.secrets && ssh-add "$HOME"/.ssh/keys/id_* </dev/null']],
     "sleep 5 && nextcloud --background",
     "kbuildsycoca6", -- rebuild kde mime cache for dolphin's "open with" list
 

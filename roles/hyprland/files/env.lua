@@ -78,7 +78,10 @@ set_all({
 
     -- Garbage that could clutter home dir
     ANSIBLE_HOME = paths.config .. "/ansible",
-    ANSIBLE_CONFIG = paths.config .. "/ansible.cfg",
+    ANSIBLE_ASYNC_DIR = paths.cache .. "/ansible_async",
+    ANSIBLE_LOCAL_TEMP = paths.cache .. "/ansible/tmp",
+    ANSIBLE_REMOTE_TEMP = paths.cache .. "/ansible/tmp",
+    ANSIBLE_SSH_CONTROL_PATH_DIR = paths.cache .. "/ansible/cp",
     ANSIBLE_GALAXY_CACHE_DIR = paths.cache .. "/ansible/galaxy_cache",
     WINEPREFIX = paths.data .. "/wineprefixes/default",
     GTK_RC_FILES = paths.config .. "/gtk-1.0/gtkrc",
@@ -92,9 +95,17 @@ set_all({
     RUSTUP_HOME = paths.data .. "/rustup",
     SQLITE_HISTORY = paths.state .. "/sqlite_history",
     PYENV_ROOT = paths.data .. "/pyenv",
-    _JAVA_OPTIONS = '-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java',
+    _JAVA_OPTIONS = "-Djava.util.prefs.userRoot=" ..
+        paths.config .. "/java -Djavafx.cachedir=" .. paths.cache .. "/openjfx",
+    MAVEN_OPTS = "-Dmaven.repo.local=" .. paths.data .. "/maven/repository",
+    MAVEN_ARGS = "--settings " .. paths.config .. "/maven/settings.xml",
     NPM_CONFIG_USERCONFIG = paths.data .. "/npm/npmrc",
+    PYTHON_HISTORY = paths.state .. "/python_history",
+    PYTHONPYCACHEPREFIX = paths.cache .. "/python",
+    PYTHONUSERBASE = paths.data .. "/python",
 
+    SCREENRC = paths.config .. "/screen/screenrc",
+    SCREENDIR = paths.require_env("XDG_RUNTIME_DIR") .. "/screen",
     DVDCSS_CACHE = paths.data .. "/dvdcss",
     GNUPGHOME = paths.data .. "/gnupg",
     HISTFILE = paths.state .. "/bash/history",

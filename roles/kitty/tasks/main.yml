@@ -1,0 +1,16 @@
+- name: Create kitty config folder
+  ansible.builtin.file:
+    path: "{{ play_user_config_dir }}/kitty"
+    state: directory
+    mode: "0750"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+
+- name: Deactivate window state remembering
+  ansible.builtin.lineinfile:
+    path: "{{ play_user_config_dir }}/kitty/kitty.conf"
+    line: 'remember_window_size no'
+    create: true
+    mode: "0640"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"

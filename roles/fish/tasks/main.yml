@@ -5,14 +5,27 @@
       - fish
       - fisher
 
-- name: Install tide
+- name: Read installed Fisher plugins
+  become: true
+  become_user: "{{ play_user }}"
+  ansible.builtin.command:
+    cmd: fish -c "fisher list"
+  register: fish_fisher_plugins
+  changed_when: false
+
+- name: Install Tide
   become: true
   become_user: "{{ play_user }}"
   ansible.builtin.command:
     cmd: fish -c "fisher install IlanCosman/tide@v6"
-  changed_when: true
+  when: "'IlanCosman/tide' not in fish_fisher_plugins.stdout_lines"
 
-- name: Configure tide
+- name: Check whether Tide has been configured
+  ansible.builtin.stat:
+    path: "{{ play_user_state_dir }}/dots-tide-configured"
+  register: fish_tide_configured
+
+- name: Configure Tide
   become: true
   become_user: "{{ play_user }}"
   ansible.builtin.command:
@@ -28,4 +41,13 @@
       --prompt_spacing=Sparse
       --icons='Many icons'
       --transient=Yes"
-  changed_when: true
+  when: not fish_tide_configured.stat.exists
+
+- name: Record Tide configuration
+  ansible.builtin.copy:
+    content: "1\n"
+    dest: "{{ play_user_state_dir }}/dots-tide-configured"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "{{ perm_files }}"
+    force: false

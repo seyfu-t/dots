@@ -59,7 +59,7 @@ hl.bind("Print", exec("grimblast copysave screen /tmp/screenshot.png && swappy -
 -- Util
 hl.bind("XF86AudioLowerVolume", exec(scripts .. "/volume_control.nu -d 5"), { repeating = true })
 hl.bind("XF86AudioRaiseVolume", exec(scripts .. "/volume_control.nu -i 5"), { repeating = true })
-hl.bind("XF86AudioMute", exec(scripts .. "/volume_control.nu -d 100"), { repeating = true })
+hl.bind("XF86AudioMute", exec(scripts .. "/volume_control.nu --mute"))
 
 hl.bind("XF86MonBrightnessUp", exec("brightnessctl --class backlight set +10%"), { repeating = true })
 hl.bind("XF86MonBrightnessDown", exec("brightnessctl --class backlight set 10%-"), { repeating = true })

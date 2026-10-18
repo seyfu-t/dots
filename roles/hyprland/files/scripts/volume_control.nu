@@ -1,11 +1,19 @@
 #!/usr/bin/env nu
 
-def main [--inc(-i): int, --dec(-d): int] {
-  if ($inc == null and $dec == null) or ($inc != null and $dec != null) {
-    error make { msg: "Use exactly one of -i <n> or -d <n>" }
-  }
+def main [--inc(-i): int, --dec(-d): int, --mute(-m)] {
+  if $mute {
+    if $inc != null or $dec != null {
+      error make { msg: "Use exactly one of -i <n>, -d <n>, or --mute" }
+    }
 
-  if $inc != null { pamixer -i $inc } else { pamixer -d $dec }
+    pamixer --toggle-mute
+  } else {
+    if ($inc == null and $dec == null) or ($inc != null and $dec != null) {
+      error make { msg: "Use exactly one of -i <n>, -d <n>, or --mute" }
+    }
+
+    if $inc != null { pamixer -i $inc } else { pamixer -d $dec }
+  }
 
   let muted = ((pamixer --get-mute | str trim) == "true")
   let vol = (pamixer --get-volume | into int)
@@ -19,7 +27,7 @@ def main [--inc(-i): int, --dec(-d): int] {
     | last
   )
 
-  let icon = if $muted or ($vol_human | str downcase) == "muted" {
+  let icon = if $muted or ($vol_human | str lowercase) == "muted" {
     "audio-volume-muted"
   } else if $vol < 33 {
     "audio-volume-low"

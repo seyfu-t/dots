@@ -15,5 +15,5 @@
     src: ddc.nu
     dest: /usr/local/bin/ddc.nu
     mode: "0755"
-    owner: "{{ play_user }}"
-    group: "{{ play_user }}"
+    owner: root
+    group: root

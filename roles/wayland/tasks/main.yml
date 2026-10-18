@@ -9,6 +9,7 @@
 
 - name: Disable x11 in all flatpaks and enable wayland
   changed_when: true
+  become_user: "{{ play_user }}"
   ansible.builtin.command:
     cmd: |
       flatpak override --user

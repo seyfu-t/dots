@@ -10,7 +10,8 @@
 ## style-1   style-2   style-3   style-4   style-5
 
 # Current Theme
-dir="$HOME/.config/rofi/powermenu/type-5"
+config_home="${XDG_CONFIG_HOME:-${HOME}/.config}"
+dir="${config_home}/rofi/powermenu/type-5"
 theme='style-5'
 
 # CMDs

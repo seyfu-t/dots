@@ -3,14 +3,8 @@
     state: present
     name: "{{ devel_packages }}"
 
-- name: Create aur_builder user
-  ansible.builtin.include_tasks: aur_builder.yml
-
-- name: Install aur packages
-  become: true
-  become_user: aur_builder
-  kewlfft.aur.aur:
-    state: present
-    name: "{{ devel_packages_aur }}"
-    use: yay
-    aur_only: true
+- name: Install development AUR packages
+  ansible.builtin.include_role:
+    name: aur_builder
+  vars:
+    aur_builder_packages: "{{ devel_packages_aur }}"

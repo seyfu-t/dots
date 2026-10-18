@@ -1,7 +1,6 @@
-- name: Install grimblat
-  become: true
-  become_user: aur_builder
-  kewlfft.aur.aur:
-    state: present
-    name: grimblast
-    use: yay
+- name: Install grimblast
+  ansible.builtin.include_role:
+    name: aur_builder
+  vars:
+    aur_builder_packages:
+      - grimblast

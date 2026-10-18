@@ -3,14 +3,11 @@
     state: present
     name: "{{ pkg_pacman }}"
 
-- name: Install aur packages
-  become: true
-  become_user: aur_builder
-  kewlfft.aur.aur:
-    state: present
-    name: "{{ pkg_aur }}"
-    use: yay
-    aur_only: true
+- name: Install AUR packages
+  ansible.builtin.include_role:
+    name: aur_builder
+  vars:
+    aur_builder_packages: "{{ pkg_aur }}"
 
 - name: Install flatpaks
   become: true

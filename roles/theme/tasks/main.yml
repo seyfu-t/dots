@@ -8,14 +8,11 @@
       - breeze5
       - nwg-look
 
-- name: Install patched qt to play nicely with plasma apps
-  become: true
-  become_user: aur_builder
-  kewlfft.aur.aur:
-    state: present
-    use: yay
-    aur_only: true
-    name:
+- name: Install patched Qt packages for Plasma applications
+  ansible.builtin.include_role:
+    name: aur_builder
+  vars:
+    aur_builder_packages:
       - hyprqt6engine
       - qt5ct-kde
 

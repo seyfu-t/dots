@@ -1,0 +1,38 @@
+- name: Create temporary AUR builder account
+  ansible.builtin.user:
+    name: aur_builder
+    create_home: true
+    password_lock: true
+    shell: /bin/bash
+    system: true
+
+- name: Build and install AUR packages
+  block:
+    - name: Temporarily allow the AUR builder to install packages
+      ansible.builtin.copy:
+        content: "aur_builder ALL=(root) NOPASSWD: /usr/bin/pacman\n"
+        dest: /etc/sudoers.d/11-install-aur_builder
+        owner: root
+        group: root
+        mode: "0440"
+        validate: "visudo -cf %s"
+
+    - name: Install AUR packages
+      become: true
+      become_user: aur_builder
+      kewlfft.aur.aur:
+        state: present
+        name: "{{ aur_builder_packages }}"
+        use: yay
+        aur_only: true
+  always:
+    - name: Remove AUR builder sudo permission
+      ansible.builtin.file:
+        path: /etc/sudoers.d/11-install-aur_builder
+        state: absent
+
+    - name: Remove temporary AUR builder account
+      ansible.builtin.user:
+        name: aur_builder
+        state: absent
+        remove: true

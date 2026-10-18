@@ -31,3 +31,9 @@ play_user_state_dir: >-
         true
       )
   }}
+
+perm_folders: "0751"
+perm_files: "0640"
+
+global_theme: Breeze-Dark
+global_icons: Breeze-Dark

@@ -5,6 +5,14 @@
     - ../vars/env.yml
     - ../vars/theme.yml
     - ../vars/global.yml
+  pre_tasks:
+    - name: Refuse execution through sudo
+      ansible.builtin.assert:
+        that:
+          - play_user != "root"
+          - lookup('env', 'SUDO_USER') | length == 0
+        fail_msg: >-
+          Run ansible-playbook as the desktop user and let Ansible handle privilege escalation with --ask-become-pass.
   roles:
     - basics
     - devel

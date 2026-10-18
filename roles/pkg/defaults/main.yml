@@ -15,6 +15,7 @@ pkg_pacman:
   - yt-dlp
   - pavucontrol
   - pamixer
+  - playerctl
   - networkmanager
   - network-manager-applet
   - nextcloud-client

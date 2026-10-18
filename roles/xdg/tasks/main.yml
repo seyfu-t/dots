@@ -5,6 +5,7 @@
       - xdg-desktop-portal
       - xdg-desktop-portal-gtk
       - xdg-desktop-portal-hyprland
+      - xdg-desktop-portal-kde
       - xdg-user-dirs
 
 - name: Create xdg folders

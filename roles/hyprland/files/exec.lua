@@ -20,8 +20,7 @@ for _, cmd in ipairs({
     -- Old `exec-once = ...`
     -- These run once on Hyprland startup.
     "mkdir -p " .. paths.data .. "/wineprefixes",
-    "dbus-update-activation-environment --systemd --all",
-    "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP",
+    "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE HYPRLAND_INSTANCE_SIGNATURE",
 
     "systemctl --user restart xdg-user-dirs.service",
     "systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service xdg-desktop-portal-gtk.service plasma-xdg-desktop-portal-kde.service",

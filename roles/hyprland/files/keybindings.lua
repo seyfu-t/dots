@@ -1,4 +1,5 @@
 local paths = require("paths")
+local profile = require("profile")
 local scripts = paths.config .. "/hypr/scripts"
 
 local mainMod = "SUPER"
@@ -37,7 +38,9 @@ hl.bind(mainMod .. " + W", hl.dsp.window.float({ action = "toggle" }))
 hl.bind("ALT + Return", hl.dsp.window.fullscreen({ action = "toggle" }))
 
 hl.bind("CTRL + Escape", exec("killall waybar || waybar"))
-hl.bind("CTRL + F12", exec("python " .. scripts .. "/toggle_audio_sinks.py"))
+if profile.name == "desktop" then
+    hl.bind("CTRL + F12", exec("python " .. scripts .. "/toggle_audio_sinks.py"))
+end
 
 -- App shortcuts
 hl.bind(mainMod .. " + T", exec(term))

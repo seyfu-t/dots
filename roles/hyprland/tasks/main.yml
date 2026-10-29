@@ -1,9 +1,7 @@
-- name: Install hyprland & dependencies
+- name: Install Hyprland runtime dependencies
   community.general.pacman:
     state: present
-    name:
-      - hyprland
-      - hyprpicker
+    name: "{{ hyprland_packages }}"
 
 - name: Create hypr config folder
   ansible.builtin.file:

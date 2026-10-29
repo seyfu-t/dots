@@ -1,3 +1,8 @@
+- name: Install Dolphin file manager and integrations
+  community.general.pacman:
+    state: present
+    name: "{{ dolphin_packages }}"
+
 - name: Make sure pacman hooks folder exists
   ansible.builtin.file:
     dest: /etc/pacman.d/hooks
@@ -13,12 +18,7 @@
     dest: /etc/pacman.d/hooks/updateKDEcache.hook
     owner: root
     group: root
-    mode: "{{ perm_folders }}"
-
-- name: Install dolphin file manager & optional dependencies
-  community.general.pacman:
-    state: present
-    name: "{{ dolphin_packages }}"
+    mode: "0644"
 
 - name: Create KNotifications directory
   ansible.builtin.file:

@@ -3,11 +3,6 @@
     state: present
     name: "{{ pkg_pacman }}"
 
-- name: Install AUR packages
-  ansible.builtin.include_role:
-    name: aur_builder
-  vars:
-    aur_builder_packages: "{{ pkg_aur }}"
 
 - name: Install flatpaks
   become: true

@@ -1,14 +1,16 @@
 devel_packages:
   - zed
-  - nushell
-  - rust
+  - rustup
   - rust-src
   - jdk-openjdk
   - openjdk-doc
   - openjdk-src
   - sqlite
   - bun
+  - ansible
+  - ansible-lint
 
 devel_packages_aur:
   - vscodium-bin
   - vscodium-bin-marketplace
+  - vscodium-xdg-dir-patch

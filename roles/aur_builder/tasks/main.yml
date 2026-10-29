@@ -1,3 +1,30 @@
+- name: Validate AUR package input
+  ansible.builtin.assert:
+    that:
+      - aur_builder_packages is defined
+      - aur_builder_packages | length > 0
+    fail_msg: aur_builder_packages must contain at least one package
+
+- name: Install AUR build dependencies
+  community.general.pacman:
+    name:
+      - base-devel
+      - git
+      - sudo
+    state: present
+
+- name: Check whether yay is installed
+  become: true
+  become_user: "{{ play_user }}"
+  ansible.builtin.command: yay --version
+  register: aur_builder_yay_check
+  changed_when: false
+  failed_when: false
+
+- name: Install yay
+  ansible.builtin.include_tasks: yay.yml
+  when: aur_builder_yay_check.rc != 0
+
 - name: Create temporary AUR builder account
   ansible.builtin.user:
     name: aur_builder

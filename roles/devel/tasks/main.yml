@@ -2,9 +2,3 @@
   community.general.pacman:
     state: present
     name: "{{ devel_packages }}"
-
-- name: Install development AUR packages
-  ansible.builtin.include_role:
-    name: aur_builder
-  vars:
-    aur_builder_packages: "{{ devel_packages_aur }}"

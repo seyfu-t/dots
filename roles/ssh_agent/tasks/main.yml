@@ -1,0 +1,12 @@
+- name: Install OpenSSH
+  community.general.pacman:
+    name: openssh
+    state: present
+
+- name: Enable user SSH agent
+  become: false
+  ansible.builtin.systemd_service:
+    name: ssh-agent.service
+    state: started
+    enabled: true
+    scope: user

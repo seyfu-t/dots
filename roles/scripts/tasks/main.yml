@@ -1,7 +1,9 @@
-- name: Install ddc
+- name: Install DDC script dependencies
   community.general.pacman:
     state: present
-    name: ddcutil
+    name:
+      - ddcutil
+      - nushell
 
 - name: Activate i2c-dev module
   community.general.modprobe:

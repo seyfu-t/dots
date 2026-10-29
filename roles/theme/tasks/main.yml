@@ -6,15 +6,9 @@
       - breeze-icons
       - breeze-gtk
       - breeze5
+      - cantarell-fonts
       - nwg-look
 
-- name: Install patched Qt packages for Plasma applications
-  ansible.builtin.include_role:
-    name: aur_builder
-  vars:
-    aur_builder_packages:
-      - hyprqt6engine
-      - qt5ct-kde
 
 - name: Configure GTK theming
   ansible.builtin.include_tasks: gtk.yml

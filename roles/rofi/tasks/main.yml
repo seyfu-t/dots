@@ -1,7 +1,14 @@
-- name: Install rofi
+- name: Install Rofi runtime dependencies
   community.general.pacman:
     state: present
-    name: rofi
+    name:
+      - hyprland
+      - inetutils
+      - papirus-icon-theme
+      - procps-ng
+      - rofi
+      - wmctrl
+      - xdg-utils
 
 - name: Create config folder
   ansible.builtin.file:

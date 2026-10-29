@@ -1,0 +1,4 @@
+dependencies:
+  - role: aur_builder
+    vars:
+      aur_builder_packages: "{{ devel_packages_aur }}"

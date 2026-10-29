@@ -1,0 +1,15 @@
+dependencies:
+  - role: xdg
+  - role: wayland
+  - role: theme
+  - role: kitty
+  - role: dolphin
+  - role: dunst
+  - role: hypridle
+  - role: kwallet
+  - role: nvidia
+  - role: polkit
+  - role: rofi
+  - role: screenshot
+  - role: ssh_agent
+  - role: waybar

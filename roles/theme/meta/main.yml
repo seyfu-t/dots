@@ -1,0 +1,9 @@
+dependencies:
+  - role: flatpak
+  - role: fonts
+  - role: aur_builder
+    vars:
+      aur_builder_packages:
+        - bibata-cursor-theme-bin
+        - hyprqt6engine
+        - qt5ct-kde

@@ -1,7 +1,10 @@
-- name: Install waybar
+- name: Install Waybar runtime dependencies
   community.general.pacman:
+    state: present
     name:
-      - python-requests
+      - brightnessctl
+      - hyprland
+      - pamixer
       - waybar
 
 - name: Create config folder

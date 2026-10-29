@@ -1,3 +1,8 @@
+- name: Install Kitty
+  community.general.pacman:
+    name: kitty
+    state: present
+
 - name: Create kitty config folder
   ansible.builtin.file:
     path: "{{ play_user_config_dir }}/kitty"

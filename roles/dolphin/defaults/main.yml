@@ -10,3 +10,6 @@ dolphin_packages:
   - libappimage
   - qt6-imageformats
   - resvg
+  - archlinux-xdg-menu
+  - kservice
+  - sudo

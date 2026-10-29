@@ -15,6 +15,14 @@
     group: "{{ play_user }}"
     mode: "{{ perm_files }}"
 
+- name: Create Hyprland config directory
+  ansible.builtin.file:
+    state: directory
+    dest: "{{ play_user_config_dir }}/hypr"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "{{ perm_folders }}"
+
 - name: Copy hyprqt6engine config
   ansible.builtin.copy:
     backup: true

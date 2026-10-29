@@ -9,9 +9,13 @@
     regexp: '^#?LANG'
     line: "LANG=en_GB.UTF-8"
     path: /etc/locale.conf
+    create: true
+    mode: "0644"
 
 - name: Configure LC_TIME
   ansible.builtin.lineinfile:
     regexp: '^#?LC_TIME'
     line: "LC_TIME=de_DE.UTF-8"
     path: /etc/locale.conf
+    create: true
+    mode: "0644"

@@ -1,6 +1,6 @@
-- name: Install grimblast
-  ansible.builtin.include_role:
-    name: aur_builder
-  vars:
-    aur_builder_packages:
-      - grimblast
+- name: Install screenshot tools
+  community.general.pacman:
+    name:
+      - swappy
+      - wl-clipboard
+    state: present

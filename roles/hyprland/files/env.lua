@@ -80,7 +80,6 @@ set_all({
     ANSIBLE_HOME = paths.config .. "/ansible",
     ANSIBLE_ASYNC_DIR = paths.cache .. "/ansible_async",
     ANSIBLE_LOCAL_TEMP = paths.cache .. "/ansible/tmp",
-    ANSIBLE_REMOTE_TEMP = paths.cache .. "/ansible/tmp",
     ANSIBLE_SSH_CONTROL_PATH_DIR = paths.cache .. "/ansible/cp",
     ANSIBLE_GALAXY_CACHE_DIR = paths.cache .. "/ansible/galaxy_cache",
     WINEPREFIX = paths.data .. "/wineprefixes/default",

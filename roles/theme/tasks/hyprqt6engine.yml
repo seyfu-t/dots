@@ -1,0 +1,51 @@
+- name: Ensure pacman hooks directory exists
+  ansible.builtin.file:
+    path: /etc/pacman.d/hooks
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Ensure local helper directory exists
+  ansible.builtin.file:
+    path: /usr/local/bin
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Install hyprqt6engine rebuild hook
+  ansible.builtin.template:
+    src: hyprqt6engine-rebuild.hook.j2
+    dest: /etc/pacman.d/hooks/hyprqt6engine-rebuild.hook
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Install hyprqt6engine rebuild queue helper
+  ansible.builtin.template:
+    src: queue-hyprqt6engine-rebuild.sh.j2
+    dest: /usr/local/bin/queue-hyprqt6engine-rebuild.sh
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Install hyprqt6engine rebuild helper
+  ansible.builtin.template:
+    src: rebuild-hyprqt6engine.sh.j2
+    dest: /usr/local/bin/rebuild-hyprqt6engine.sh
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Install hyprqt6engine rebuild service
+  ansible.builtin.template:
+    src: hyprqt6engine-rebuild.service.j2
+    dest: /etc/systemd/system/hyprqt6engine-rebuild.service
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Reload systemd units
+  ansible.builtin.systemd_service:
+    daemon_reload: true

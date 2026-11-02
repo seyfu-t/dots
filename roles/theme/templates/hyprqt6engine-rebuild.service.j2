@@ -1,0 +1,9 @@
+[Unit]
+Description=Rebuild hyprqt6engine after an ABI dependency update
+Wants=network-online.target
+After=network-online.target
+ConditionPathExists={{ theme_hyprqt6engine_state_dir }}/rebuild-needed
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/rebuild-hyprqt6engine.sh

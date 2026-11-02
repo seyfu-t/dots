@@ -9,6 +9,8 @@
       - cantarell-fonts
       - nwg-look
 
+- name: Configure hyprqt6engine rebuild hook
+  ansible.builtin.include_tasks: hyprqt6engine.yml
 
 - name: Configure GTK theming
   ansible.builtin.include_tasks: gtk.yml

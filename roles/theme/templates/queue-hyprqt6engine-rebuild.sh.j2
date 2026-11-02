@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+state_dir="{{ theme_hyprqt6engine_state_dir }}"
+install -d -m 0755 "${state_dir}"
+touch "${state_dir}/rebuild-needed"
+systemctl start --no-block hyprqt6engine-rebuild.service

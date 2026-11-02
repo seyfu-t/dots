@@ -1,0 +1,15 @@
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = kcolorscheme
+Target = kconfig
+Target = kiconthemes
+Target = qt6-base
+Target = hyprutils
+Target = hyprlang
+
+[Action]
+Description = Queueing hyprqt6engine rebuild after ABI dependency update...
+When = PostTransaction
+Exec = /usr/local/bin/queue-hyprqt6engine-rebuild.sh
+Depends = systemd

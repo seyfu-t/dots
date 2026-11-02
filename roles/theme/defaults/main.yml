@@ -1,0 +1,3 @@
+theme_hyprqt6engine_package: hyprqt6engine
+theme_hyprqt6engine_build_dir: "{{ play_user_cache_dir }}/hyprqt6engine-rebuild"
+theme_hyprqt6engine_state_dir: /var/lib/hyprqt6engine

@@ -18,6 +18,7 @@
   become_user: "{{ play_user }}"
   ansible.builtin.command:
     cmd: fish -c "fisher install IlanCosman/tide@v6"
+  changed_when: true
   when: "'IlanCosman/tide' not in fish_fisher_plugins.stdout_lines"
 
 - name: Ensure user state directory exists
@@ -49,6 +50,7 @@
       --prompt_spacing=Sparse
       --icons='Many icons'
       --transient=Yes"
+  changed_when: true
   when: not fish_tide_configured.stat.exists
 
 - name: Record Tide configuration

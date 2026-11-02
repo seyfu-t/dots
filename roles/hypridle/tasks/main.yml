@@ -4,7 +4,6 @@
     name:
       - hypridle
       - hyprland
-      - brightnessctl
       - procps-ng
 
 - name: Create hypr folder

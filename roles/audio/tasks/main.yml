@@ -1,0 +1,4 @@
+- name: Install audio and media controls
+  community.general.pacman:
+    name: "{{ audio_packages }}"
+    state: present

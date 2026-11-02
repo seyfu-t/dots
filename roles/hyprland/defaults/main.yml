@@ -1,5 +1,4 @@
 hyprland_packages:
-  - brightnessctl
   - cliphist
   - dbus
   - dconf
@@ -7,21 +6,13 @@ hyprland_packages:
   - gtk3
   - hyprland
   - hyprpicker
-  - inetutils
   - libnotify
-  - networkmanager
-  - network-manager-applet
   - nextcloud-client
   - nushell
-  - pamixer
-  - pipewire
-  - pipewire-pulse
-  - playerctl
   - procps-ng
   - psmisc
   - python
   - udiskie
-  - wireplumber
   - wl-clipboard
 
 _hyprland_config_files:

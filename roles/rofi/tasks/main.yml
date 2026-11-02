@@ -3,12 +3,10 @@
     state: present
     name:
       - hyprland
-      - inetutils
       - papirus-icon-theme
       - procps-ng
       - rofi
       - wmctrl
-      - xdg-utils
 
 - name: Create config folder
   ansible.builtin.file:

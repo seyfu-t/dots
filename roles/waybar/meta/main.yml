@@ -1,3 +1,5 @@
 dependencies:
+  - role: audio
   - role: fonts
+  - role: hardware
   - role: locale

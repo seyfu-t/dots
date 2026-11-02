@@ -1,0 +1,4 @@
+- name: Install hardware utilities
+  community.general.pacman:
+    name: "{{ hardware_packages }}"
+    state: present

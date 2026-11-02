@@ -1,4 +1,7 @@
 dependencies:
+  - role: audio
+  - role: hardware
+  - role: network
   - role: xdg
   - role: wayland
   - role: theme

@@ -2,9 +2,7 @@
   community.general.pacman:
     state: present
     name:
-      - brightnessctl
       - hyprland
-      - pamixer
       - waybar
 
 - name: Create config folder

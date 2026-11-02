@@ -7,13 +7,10 @@ pkg_pacman:
   - man-db
   - 7zip
   - unzip
-  - bind
   - jq
   - fastfetch
   - rsync
   - yt-dlp
-  - pavucontrol
-  - gst-plugin-pipewire
   - parallel
   - ffmpeg
 

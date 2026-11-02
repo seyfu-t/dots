@@ -1,0 +1,8 @@
+audio_packages:
+  - gst-plugin-pipewire
+  - pamixer
+  - pavucontrol
+  - pipewire
+  - pipewire-pulse
+  - playerctl
+  - wireplumber

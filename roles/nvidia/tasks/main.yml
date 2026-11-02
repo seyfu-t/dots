@@ -1,8 +1,3 @@
-- name: Install NVIDIA detection dependency
-  community.general.pacman:
-    name: pciutils
-    state: present
-
 - name: Detect NVIDIA GPU
   ansible.builtin.command: lspci -nn
   register: nvidia_lspci_out

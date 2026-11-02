@@ -1,0 +1,10 @@
+[Unit]
+Description=Stop direct Hyprland session services when the compositor exits
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/bash -c 'while /usr/bin/pgrep -u %u -x Hyprland >/dev/null; do sleep 2; done; /usr/bin/systemctl --user stop graphical-session.target hyprland-session.target'
+Restart=no

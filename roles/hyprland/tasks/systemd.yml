@@ -1,0 +1,83 @@
+- name: Create user systemd directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "{{ perm_folders }}"
+  loop:
+    - "{{ play_user_config_dir }}/systemd/user"
+    - "{{ play_user_config_dir }}/systemd/user/graphical-session.target.wants"
+    - "{{ play_user_config_dir }}/systemd/user/com.nextcloud.desktopclient.nextcloud.service.d"
+    - "{{ play_user_config_dir }}/autostart"
+
+- name: Install Hyprland session user units
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ play_user_config_dir }}/systemd/user/{{ item }}"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "0644"
+  loop:
+    - hyprland-session.target
+    - nm-applet.service
+    - cliphist-text.service
+    - cliphist-image.service
+    - ssh-add-keys.service
+    - udiskie.service
+    - hyprland-session-watcher.service
+
+- name: Configure Nextcloud as a graphical session service
+  ansible.builtin.template:
+    src: nextcloud-session.conf.j2
+    dest: "{{ play_user_config_dir }}/systemd/user/com.nextcloud.desktopclient.nextcloud.service.d/session.conf"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "0644"
+
+- name: Disable duplicate XDG autostart entries
+  ansible.builtin.copy:
+    content: "[Desktop Entry]\nHidden=true\n"
+    dest: "{{ play_user_config_dir }}/autostart/{{ item }}"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "0644"
+  loop:
+    - nm-applet.desktop
+    - pam_kwallet_init.desktop
+
+- name: Link session services to graphical session target
+  ansible.builtin.file:
+    src: "{{ item.src }}"
+    dest: "{{ play_user_config_dir }}/systemd/user/graphical-session.target.wants/{{ item.name }}"
+    state: link
+    force: true
+  loop:
+    - name: waybar.service
+      src: /usr/lib/systemd/user/waybar.service
+    - name: hypridle.service
+      src: /usr/lib/systemd/user/hypridle.service
+    - name: hyprpolkitagent.service
+      src: /usr/lib/systemd/user/hyprpolkitagent.service
+    - name: plasma-kwallet-pam.service
+      src: /usr/lib/systemd/user/plasma-kwallet-pam.service
+    - name: com.nextcloud.desktopclient.nextcloud.service
+      src: /usr/lib/systemd/user/com.nextcloud.desktopclient.nextcloud.service
+    - name: nm-applet.service
+      src: "{{ play_user_config_dir }}/systemd/user/nm-applet.service"
+    - name: cliphist-text.service
+      src: "{{ play_user_config_dir }}/systemd/user/cliphist-text.service"
+    - name: cliphist-image.service
+      src: "{{ play_user_config_dir }}/systemd/user/cliphist-image.service"
+    - name: ssh-add-keys.service
+      src: "{{ play_user_config_dir }}/systemd/user/ssh-add-keys.service"
+    - name: udiskie.service
+      src: "{{ play_user_config_dir }}/systemd/user/udiskie.service"
+    - name: hyprland-session-watcher.service
+      src: "{{ play_user_config_dir }}/systemd/user/hyprland-session-watcher.service"
+
+- name: Reload user systemd units
+  become: false
+  ansible.builtin.systemd_service:
+    scope: user
+    daemon_reload: true

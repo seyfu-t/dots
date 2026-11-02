@@ -1,0 +1,11 @@
+[Unit]
+Description=Disk automount tray
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+ConditionEnvironment=WAYLAND_DISPLAY
+
+[Service]
+ExecStart=/usr/bin/udiskie --no-automount --smart-tray
+Restart=on-failure
+RestartSec=3s

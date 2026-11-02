@@ -1,0 +1,12 @@
+[Unit]
+Description=Load SSH keys through KWallet
+PartOf=graphical-session.target
+After=graphical-session.target plasma-kwallet-pam.service ssh-agent.service
+Requisite=graphical-session.target
+Wants=plasma-kwallet-pam.service ssh-agent.service
+ConditionPathExistsGlob=%h/.ssh/keys/id_*
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/bash -lc 'gdbus wait --session --timeout 10 org.freedesktop.secrets && shopt -s nullglob && for key in "$HOME"/.ssh/keys/id_*; do [[ "${key}" == *.pub ]] || ssh-add "${key}"; done'
+RemainAfterExit=yes

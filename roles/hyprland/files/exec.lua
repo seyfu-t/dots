@@ -1,45 +1,26 @@
-local paths = require("paths")
+local session_environment = table.concat({
+    "WAYLAND_DISPLAY",
+    "HYPRLAND_INSTANCE_SIGNATURE",
+    "SSH_ASKPASS",
+    "SSH_ASKPASS_REQUIRE",
+    "SSH_AUTH_SOCK",
+    "PATH",
+    "XDG_CACHE_HOME",
+    "XDG_CONFIG_HOME",
+    "XDG_CURRENT_DESKTOP",
+    "XDG_DATA_HOME",
+    "XDG_SESSION_DESKTOP",
+    "XDG_SESSION_TYPE",
+    "XDG_STATE_HOME",
+    "XDG_RUNTIME_DIR",
+    "QT_QPA_PLATFORM",
+}, " ")
 
-local function run(cmd)
-    hl.exec_cmd(cmd)
-end
+hl.on("hyprland.start", function()
+    hl.exec_cmd("dbus-update-activation-environment --systemd " .. session_environment ..
+        " && systemctl --user start hyprland-session.target")
+end)
 
-local function run_once(cmd)
-    hl.on("hyprland.start", function()
-        hl.exec_cmd(cmd)
-    end)
-end
-
--- Old `exec = ...`
--- These run when the config is loaded/reloaded.
-run([[gsettings set org.gnome.desktop.interface gtk-theme "Breeze-Dark"]])
-run([[gsettings set org.gnome.desktop.interface icon-theme "breeze-dark"]])
-run([[gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"]])
-
-for _, cmd in ipairs({
-    -- Old `exec-once = ...`
-    -- These run once on Hyprland startup.
-    "mkdir -p " .. paths.data .. "/wineprefixes",
-    "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE HYPRLAND_INSTANCE_SIGNATURE",
-
-    "systemctl --user restart xdg-user-dirs.service",
-    "systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service xdg-desktop-portal-gtk.service plasma-xdg-desktop-portal-kde.service",
-    "systemctl --user restart hyprpolkitagent",
-    "waybar",
-    "dunst",
-    "udiskie --no-automount --smart-tray",
-    "nm-applet --indicator",
-    "wl-paste --type text --watch cliphist store",
-    "wl-paste --type image --watch cliphist store",
-    "hypridle",
-    [[bash -c '/usr/lib/pam_kwallet_init && gdbus wait --session --timeout 10 org.freedesktop.secrets && ssh-add "$HOME"/.ssh/keys/id_* </dev/null']],
-    "sleep 5 && nextcloud --background",
-    "kbuildsycoca6", -- rebuild kde mime cache for dolphin's "open with" list
-
-    -- Optional
-    -- "blueman-applet", -- systray app for Bluetooth
-    -- "$scrPath/swwwallpaper.sh", -- start wallpaper daemon
-    -- "$scrPath/batterynotify.sh", -- battery notification
-}) do
-    run_once(cmd)
-end
+hl.on("hyprland.shutdown", function()
+    hl.exec_cmd("systemctl --user stop graphical-session.target hyprland-session.target")
+end)

@@ -61,3 +61,6 @@
     mode: "{{ perm_folders }}"
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
+
+- name: Configure graphical session services
+  ansible.builtin.include_tasks: systemd.yml

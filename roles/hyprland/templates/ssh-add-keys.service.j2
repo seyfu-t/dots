@@ -8,5 +8,8 @@ ConditionPathExistsGlob=%h/.ssh/keys/id_*
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/bash -lc 'gdbus wait --session --timeout 10 org.freedesktop.secrets && shopt -s nullglob && for key in "$HOME"/.ssh/keys/id_*; do [[ "${key}" == *.pub ]] || ssh-add "${key}"; done'
+Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
+Environment=SSH_ASKPASS=/usr/bin/ksshaskpass
+Environment=SSH_ASKPASS_REQUIRE=force
+ExecStart=/usr/bin/bash -lc 'gdbus wait --session --timeout 10 org.freedesktop.secrets && shopt -s nullglob && for key in "$$HOME"/.ssh/keys/id_*; do [[ "$${key}" == *.pub ]] || /usr/bin/ssh-add "$${key}"; done'
 RemainAfterExit=yes

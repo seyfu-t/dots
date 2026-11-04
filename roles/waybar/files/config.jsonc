@@ -1,31 +1,52 @@
 {
-    "layer": "bottom",
-    "position": "bottom",
-    "mode": "dock",
-    "exclusive": true,
-    "passthrough": false,
-    "gtk-layer-shell": true,
-    "height": 50,
-    "modules-left": [
-        "hyprland/workspaces"
-    ],
-    "modules-center": [
-        "clock",
-        "hyprland/window"
-    ],
-    "modules-right": [
-        "network",
-        "bluetooth",
-        "tray",
-        "battery",
-        "backlight",
-        "pulseaudio",
-        "pulseaudio#microphone"
-    ],
-    "hyprland/workspaces": {
-        "format": "{icon}",
-        "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'",
-        "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'"
+  "layer": "bottom",
+  "position": "bottom",
+  "mode": "dock",
+  "exclusive": true,
+  "passthrough": false,
+  "gtk-layer-shell": true,
+  "height": 50,
+  "modules-left": ["hyprland/workspaces"],
+  "modules-center": ["clock", "hyprland/window"],
+  "modules-right": [
+    "network",
+    "bluetooth",
+    "tray",
+    "battery",
+    "backlight",
+    "pulseaudio",
+    "pulseaudio#microphone",
+  ],
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'",
+    "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
+  },
+  "hyprland/window": {
+    "format": "{}",
+  },
+  "tray": {
+    "icon-size": 18,
+    "spacing": 10,
+  },
+  "clock": {
+    "format": " {:L%H:%M  %a, %b %e}",
+    "timezone": "Europe/Berlin",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>",
+    "locale": "de_DE.UTF-8",
+  },
+  "backlight": {
+    "device": "intel_backlight",
+    "format": "{icon} {percent}%",
+    "format-icons": ["󰃞", "󰃟", "󰃠"],
+    "on-scroll-up": "brightnessctl -q set 1%+",
+    "on-scroll-down": "brightnessctl -q set 1%-",
+  },
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 40,
+      "critical": 30,
     },
     "format": "{icon} {capacity}%",
     "format-charging": " {capacity}%",

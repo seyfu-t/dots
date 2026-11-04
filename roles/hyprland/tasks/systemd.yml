@@ -9,6 +9,7 @@
     - "{{ play_user_config_dir }}/systemd/user"
     - "{{ play_user_config_dir }}/systemd/user/graphical-session.target.wants"
     - "{{ play_user_config_dir }}/systemd/user/com.nextcloud.desktopclient.nextcloud.service.d"
+    - "{{ play_user_config_dir }}/systemd/user/plasma-kwallet-pam.service.d"
     - "{{ play_user_config_dir }}/autostart"
 
 - name: Install Hyprland session user units
@@ -31,6 +32,14 @@
   ansible.builtin.template:
     src: nextcloud-session.conf.j2
     dest: "{{ play_user_config_dir }}/systemd/user/com.nextcloud.desktopclient.nextcloud.service.d/session.conf"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "0644"
+
+- name: Pass KWallet PAM socket to its user service
+  ansible.builtin.template:
+    src: kwallet-pam-session.conf.j2
+    dest: "{{ play_user_config_dir }}/systemd/user/plasma-kwallet-pam.service.d/session.conf"
     owner: "{{ play_user }}"
     group: "{{ play_user }}"
     mode: "0644"

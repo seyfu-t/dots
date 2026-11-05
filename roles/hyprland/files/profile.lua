@@ -78,6 +78,7 @@ local profiles = {
 
     laptop = {
         gpu = "amd",
+        dynamic_monitors = true,
 
         monitors = {
             {

@@ -1,0 +1,16 @@
+- name: Create npm configuration directory
+  ansible.builtin.file:
+    path: "{{ play_user_data_dir }}/npm"
+    state: directory
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "{{ perm_folders }}"
+
+- name: Install npm XDG configuration
+  ansible.builtin.copy:
+    src: npmrc
+    dest: "{{ play_user_data_dir }}/npm/npmrc"
+    force: false
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "0600"

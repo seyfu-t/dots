@@ -1,7 +1,20 @@
+- name: Check whether lspci is available
+  ansible.builtin.stat:
+    path: /usr/bin/lspci
+  register: nvidia_lspci
+  when: ansible_check_mode
+
+- name: Explain unavailable GPU detection in check mode
+  ansible.builtin.debug:
+    msg: "Cannot detect NVIDIA hardware in check mode because lspci is not installed."
+  when: ansible_check_mode and not nvidia_lspci.stat.exists
+
 - name: Detect NVIDIA GPU
   ansible.builtin.command: lspci -nn
   register: nvidia_lspci_out
   changed_when: false
+  check_mode: false
+  when: not ansible_check_mode or nvidia_lspci.stat.exists
 
 - name: Install nvidia drivers and tools
   community.general.pacman:
@@ -12,4 +25,4 @@
       - nvidia-settings
       - nvtop
       - libva-nvidia-driver
-  when: nvidia_lspci_out.stdout is search('10de:')
+  when: nvidia_lspci_out.stdout | default('') is search('10de:')

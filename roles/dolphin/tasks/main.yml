@@ -8,7 +8,7 @@
     dest: /etc/pacman.d/hooks
     owner: root
     group: root
-    mode: "{{ perm_folders }}"
+    mode: "0755"
     state: directory
 
 - name: Install cache updater hook

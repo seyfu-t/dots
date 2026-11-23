@@ -13,6 +13,7 @@
   register: xdg_dirs
   become_user: "{{ play_user }}"
   become: true
+  when: not ansible_check_mode
   loop:
     - DESKTOP
     - DOCUMENTS
@@ -32,3 +33,14 @@
     mode: "{{ perm_folders }}"
     path: "{{ item.stdout }}"
   loop: "{{ xdg_dirs.results }}"
+  when: not ansible_check_mode
+
+- name: Check desired XDG folders in check mode
+  ansible.builtin.file:
+    state: directory
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "{{ perm_folders }}"
+    path: "{{ item | replace('$HOME', lookup('env', 'HOME')) }}"
+  loop: "{{ lookup('ansible.builtin.file', 'user-dirs.dirs') | regex_findall('(?m)^XDG_[A-Z]+_DIR=\"(\\$HOME/[^\"]+|/[^\"]+)\"$') | unique | list }}"
+  when: ansible_check_mode

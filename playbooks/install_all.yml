@@ -12,6 +12,7 @@
           Run ansible-playbook as the desktop user and let Ansible handle privilege escalation with --ask-become-pass.
   roles:
     - basics
+    - ca_trust
     - devel
     - fish
     - grub

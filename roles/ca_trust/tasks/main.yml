@@ -1,0 +1,50 @@
+- name: Check for synchronized CA certificates
+  ansible.builtin.stat:
+    path: "{{ ca_trust_source_dir }}"
+  register: ca_trust_source
+
+- name: Warn when synchronized CA certificates are unavailable
+  ansible.builtin.debug:
+    msg: "WARNING: {{ ca_trust_source_dir }} does not exist; skipping CA trust installation. Run the playbook again after Nextcloud has synchronized." # TODO: This is a bullshit approach but everything else would be more complex and i dc rn
+  when: not ca_trust_source.stat.exists
+
+- name: Install synchronized CA certificates
+  when: ca_trust_source.stat.exists
+  block:
+    - name: Verify CA certificate source is a directory
+      ansible.builtin.assert:
+        that:
+          - ca_trust_source.stat.isdir | default(false)
+        fail_msg: "{{ ca_trust_source_dir }} exists but is not a directory."
+
+    - name: Find CA certificates
+      ansible.builtin.find:
+        paths: "{{ ca_trust_source_dir }}"
+        patterns: "*.crt"
+        file_type: file
+      register: ca_trust_certificates
+
+    - name: Warn when no CA certificates are present
+      ansible.builtin.debug:
+        msg: "WARNING: No .crt files found in {{ ca_trust_source_dir }}; no CA certificates were installed."
+      when: ca_trust_certificates.matched == 0
+
+    - name: Install CA certificates into the system trust store
+      ansible.builtin.copy:
+        src: "{{ item.path }}"
+        dest: "{{ ca_trust_anchors_dir }}/nextcloud-{{ item.path | basename }}"
+        remote_src: true
+        owner: root
+        group: root
+        mode: "0644"
+      loop: "{{ ca_trust_certificates.files }}"
+      loop_control:
+        label: "{{ item.path | basename }}"
+      register: ca_trust_copied
+
+    - name: Update system CA trust
+      ansible.builtin.command: update-ca-trust
+      when:
+        - ca_trust_copied.changed
+        - not ansible_check_mode
+      changed_when: true

@@ -1,0 +1,2 @@
+ca_trust_source_dir: "{{ lookup('env', 'HOME') }}/Nextcloud/Certs"
+ca_trust_anchors_dir: /etc/ca-certificates/trust-source/anchors

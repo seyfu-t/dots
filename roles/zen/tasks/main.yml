@@ -1,0 +1,15 @@
+- name: Create Zen Flatpak policy directory
+  ansible.builtin.file:
+    path: "{{ zen_systemconfig_dir }}/policies"
+    state: directory
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "0755"
+
+- name: Configure Zen Flatpak policies
+  ansible.builtin.template:
+    src: policies.json.j2
+    dest: "{{ zen_systemconfig_dir }}/policies/policies.json"
+    owner: "{{ play_user }}"
+    group: "{{ play_user }}"
+    mode: "0644"

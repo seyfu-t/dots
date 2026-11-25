@@ -1,0 +1,11 @@
+{
+  "policies": {
+    "DisableAppUpdate": true,
+    "DontCheckDefaultBrowser": true,
+    "SecurityDevices": {
+      "Add": {
+        "System Trust": {{ zen_pkcs11_module | to_json }}
+      }
+    }
+  }
+}

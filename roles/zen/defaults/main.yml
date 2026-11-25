@@ -1,0 +1,4 @@
+zen_flatpak_arch: "{{ ansible_facts['architecture'] }}"
+zen_flatpak_branch: stable
+zen_pkcs11_module: "/usr/lib/{{ zen_flatpak_arch }}-linux-gnu/pkcs11/p11-kit-client.so"
+zen_systemconfig_dir: "{{ play_user_data_dir }}/flatpak/extension/app.zen_browser.zen.systemconfig/{{ zen_flatpak_arch }}/{{ zen_flatpak_branch }}"

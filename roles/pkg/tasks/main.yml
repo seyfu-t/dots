@@ -10,4 +10,5 @@
   community.general.flatpak:
     state: present
     method: user
-    name: "{{ pkg_flatpak }}"
+    name: "{{ item }}"
+  loop: "{{ pkg_flatpak }}"
